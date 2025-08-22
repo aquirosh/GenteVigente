@@ -1,9 +1,9 @@
 :root{
-    --primary-color: #D4AF37; /* Color dorado */
+    --primary-color: #c78b42; /* Color dorado/bronce */
     --secondary-color: #1a1a1a; /* Color oscuro */
     --background-color: #fafafa; /* Color de fondo claro */
     --text-color: #666; /* Color de texto secundario */
-    --highlight-color: #B8941F; /* Color de resaltado */
+    --highlight-color: #a6722e; /* Color de resaltado */
 }
 
 
@@ -275,6 +275,69 @@ body {
 
 .hero-cta:hover .cta-arrow {
     transform: translateX(5px);
+}
+
+/* Logo */
+/* Logo Container - Posición más alta */
+.logo-container {
+    text-align: center;
+    margin-bottom: 4rem; /* Aumentar espacio debajo del logo */
+    position: relative;
+    transform: translateY(-40px); /* Subir el logo significativamente */
+}
+
+.main-logo {
+    filter: drop-shadow(0 0 30px rgba(239, 191, 4, 0.3));
+    animation: logoGlow 3s ease-in-out infinite;
+    transition: all 0.3s ease;
+}
+
+@keyframes logoGlow {
+    0% { 
+        filter: drop-shadow(0 0 20px rgba(239, 191, 4, 0.3)) drop-shadow(0 0 40px rgba(255, 255, 255, 0.1));
+    }
+    50% { 
+        filter: drop-shadow(0 0 40px rgba(239, 191, 4, 0.6)) drop-shadow(0 0 60px rgba(255, 255, 255, 0.2));
+    }
+    100% { 
+        filter: drop-shadow(0 0 20px rgba(239, 191, 4, 0.3)) drop-shadow(0 0 40px rgba(255, 255, 255, 0.1));
+    }
+}
+
+/* Ajustar el título para compensar el espacio */
+.logo {
+    margin-top: -2rem; /* Reducir margen superior del título */
+}
+
+/* Responsive para el logo */
+@media (max-width: 768px) {
+    .main-logo {
+        max-width: 250px;
+    }
+    
+    .logo-container {
+        margin-bottom: 3rem;
+        transform: translateY(-30px); /* Subir menos en móvil */
+    }
+    
+    .logo {
+        margin-top: -1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-logo {
+        max-width: 200px;
+    }
+    
+    .logo-container {
+        margin-bottom: 2.5rem;
+        transform: translateY(-20px); /* Subir menos en móvil pequeño */
+    }
+    
+    .logo {
+        margin-top: -1rem;
+    }
 }
 
 /* Secciones */
@@ -632,12 +695,12 @@ body {
     font-size: 0.9rem;
 }
 /* Membresía Section - Compatible con tu estructura */
-.membership-section {
+.membersia-section {
     background: #f8f8f8;
     padding: 6rem 2rem;
 }
 
-.membership-grid {
+.membersia-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 3rem;
@@ -647,7 +710,7 @@ body {
     margin-right: auto;
 }
 
-.membership-card {
+.membersia-card {
     background: #fff;
     padding: 2.5rem;
     border-radius: 25px;
@@ -658,22 +721,22 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-.membership-card.bronce {
+.membersia-card.bronce {
     border-color: #CD7F32;
 }
 
-.membership-card.gold {
+.membersia-card.gold {
     border-color: var(--primary-color);
     transform: scale(1.05);
     background: linear-gradient(135deg, #fff 0%, #fefbf3 100%);
 }
 
-.membership-card:hover {
+.membersia-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
 }
 
-.membership-card.gold:hover {
+.membersia-card.gold:hover {
     transform: translateY(-10px) scale(1.05);
 }
 
@@ -833,7 +896,7 @@ body {
 }
 
 /* Comparación de membresías */
-.membership-comparison {
+.membersia-comparison {
     margin-top: 4rem;
     background: #fff;
     padding: 3rem;
@@ -934,7 +997,7 @@ body {
     background: linear-gradient(to top, var(--primary-color), #F5E049);
 }
 
-.membership-guarantee {
+.membersia-guarantee {
     margin-top: 4rem;
     text-align: center;
 }
@@ -974,18 +1037,18 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
-    .membership-grid {
+    .membersia-grid {
         grid-template-columns: 1fr;
         gap: 2rem;
         max-width: 400px;
     }
     
-    .membership-card.gold {
+    .membersia-card.gold {
         transform: none;
         order: -1; /* Mostrar Gold primero en móvil */
     }
     
-    .membership-card.gold:hover {
+    .membersia-card.gold:hover {
         transform: translateY(-10px);
     }
     
@@ -995,7 +1058,7 @@ body {
         align-items: center;
     }
     
-    .membership-comparison {
+    .membersia-comparison {
         padding: 2rem;
     }
     
@@ -1320,11 +1383,11 @@ body {
         gap: 1.5rem;
     }
     
-    .membership-card.featured {
+    .membersia-card.featured {
         transform: none;
     }
     
-    .membership-card.featured:hover {
+    .membersia-card.featured:hover {
         transform: translateY(-10px);
     }
     
@@ -1371,7 +1434,7 @@ body {
     
     .product-card,
     .testimonio,
-    .membership-card {
+    .membersia-card {
         padding: 2rem;
     }
 }
