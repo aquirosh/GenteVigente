@@ -4,57 +4,303 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gente Vigente - Crea, Trasciende, Lidera</title>
-    <link rel="stylesheet" href="css/stlyes.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Navigation Bar -->
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="nav-logo">
-                <span>Gente Vigente</span>
-            </div>
+            <div class="nav-logo">GENTE VIGENTE</div>
             <div class="nav-menu">
-                <a href="#login" class="nav-link login-btn">Acceso Miembros</a>
+                <a href="#nosotros" class="nav-link">Nosotros</a>
+                <a href="" class="nav-link nav-cta">Acceso Miembros</a>
+            </div>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </div>
     </nav>
 
-    <!-- Shooting Stars Background -->
-    <div class="stars-container" id="starsContainer"></div>
-
     <!-- Hero Section -->
-
     <section class="hero">
+        <div class="geometric-circle"></div>
+        <div class="geometric-lines"></div>
+        
         <div class="hero-content">
-            <h1 class="logo fade-in">Gente Vigente</h1>
-            <p class="hero-subtitle fade-in">Sé Gente Vigente: crea, trasciende, lidera.</p>
-            <p class="hero-description fade-in">
+            <span class="hero-badge fade-up">Comunidad de Líderes</span>
+            <h1 class="hero-title fade-up">Se Gente Vigente</h1>
+            <p class="hero-subtitle fade-up">Crea, Trasciende, Lidera</p>
+            <p class="hero-description fade-up">
                 Así como el sol, la luna y las estrellas permanecen con su brillo, 
                 así debemos ser las personas: siempre vigentes y con brillo propio.
             </p>
-            <div class="hero-buttons fade-in">
-                <a href="#cta" class="cta-button primary">QUIERO SER PARTE</a>
+            <a href="#cta" class="hero-cta fade-up nav-link">
+                <span>Únete Ahora</span>
+                <span class="cta-arrow">→</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Manifesto Section -->
+    <section class="manifesto section">
+        <div class="container">
+            <div class="section-header fade-up">
+                <span class="section-badge">Nuestra Filosofía</span>
+                <h2 class="section-title">El Manifiesto Vigente</h2>
+                <p class="section-description">
+                    La filosofía que nos guía hacia la excelencia personal y profesional
+                </p>
+            </div>
+            
+            <div class="manifesto-content fade-up">
+                <div class="manifesto-quote-container">
+                    <div class="quote-mark quote-start">"</div>
+                    <p class="manifesto-quote">
+                        En un mundo que cambia cada día, muchos sienten que sus ideas, su liderazgo 
+                        o incluso su vida se quedan atrás. Gente Vigente nace como un movimiento para 
+                        quienes se niegan a caducar. Aquí aprendemos a reinventarnos, mantenernos relevantes y trascender, 
+                        integrando lo humano con lo tecnológico, el propósito con la acción, la experiencia con la innovación. 
+                        Porque ser Gente Vigente no es solo estar al día, es crear, liderar y dejar huella en cada etapa de la vida.
+                    </p>
+                    <div class="quote-mark quote-end">"</div>
+                </div>
             </div>
         </div>
     </section>
 
-    
-
-    <!-- CTA Section
-    <section id = "cta" class="hero">
-        <div class="hero-content">
-            <h2 class="cta-title fade-in">¿Querés ser parte?</h2>
-            <p class="cta-subtitle fade-in">Da tu primer paso hoy y forma parte de esta comunidad de líderes vigentes.</p>
-            <a href="#" class="cta-button fade-in">ÚNETE A GENTE VIGENTE</a>
-            </div>  
-    </section> -->
-
-    <section id ="cta" class="cta-section">
-        <h2 class="cta-title fade-in">¿Querés ser parte?</h2>
-            <p class="cta-subtitle fade-in">Da tu primer paso hoy y forma parte de esta comunidad de líderes vigentes.</p>
-            <a href="#" class="cta-button fade-in">ÚNETE A GENTE VIGENTE</a>
+    <!-- nosotros Section -->
+    <section id="nosotros" class="nosotros section">
+        <div class="container">
+            <div class="nosotros-content">
+                <div class="nosotros-text">
+                    <span class="section-badge">Sobre Nosotros</span>
+                    <h2 class="section-title fade-up">Transformando Líderes del Futuro</h2>
+                    <p class="section-description fade-up">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
+                        <!-- Somos una comunidad exclusiva de profesionales comprometidos con la excelencia. 
+                        Nuestro enfoque se basa en el desarrollo integral de líderes que marquen la diferencia 
+                        en sus industrias y comunidades. -->
+                    </p>
+                    <p class="section-description fade-up">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </p>
+                    <!-- <div class="nosotros-stats fade-up">
+                        <div class="stat-item">
+                            <span class="stat-number">500+</span>
+                            <span class="stat-label">Líderes Activos</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">50+</span>
+                            <span class="stat-label">Países</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">95%</span>
+                            <span class="stat-label">Satisfacción</span>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="nosotros-visual fade-up">
+                    <div class="visual-element">
+                        <div class="visual-circle"></div>
+                        <div class="visual-lines"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
+    <!-- testimonios -->
+    <section id="testimonios" class="testimonios section">
+        <div class="container">
+            <div class="section-header fade-up">
+                <span class="section-badge">Testimonios</span>
+                <h2 class="section-title">Historias de Éxito</h2>
+                <p class="section-description">
+                    Conoce el impacto real en la vida de nuestra comunidad
+                </p>
+            </div>
+            
+            <div class="testimonios-grid">
+                <div class="testimonio fade-up">
+                    <div class="testimonio-content">
+                        <p class="testimonio-text">
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                        </p>
+                    </div>
+                    <div class="testimonio-author">
+                        <div class="author-avatar">AQ</div>
+                        <div class="author-info">
+                            <h4>Andres Quiros</h4>
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonio fade-up">
+                    <div class="testimonio-content">
+                        <p class="testimonio-text">
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                        </p>
+                    </div>
+                    <div class="testimonio-author">
+                        <div class="author-avatar">HQ</div>
+                        <div class="author-info">
+                            <h4>Humberto Quiros</h4>
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonio fade-up">
+                    <div class="testimonio-content">
+                        <p class="testimonio-text">
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                        </p>
+                    </div>
+                    <div class="testimonio-author">
+                        <div class="author-avatar">EH</div>
+                        <div class="author-info">
+                            <h4>Eugenie Herrero</h4>
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+   <!-- Membresía (Gris Claro) -->
+<section id="membresia" class="membership-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge fade-up">Planes de Membresía</span>
+            <h2 class="section-title fade-up">Elige Tu Nivel de Compromiso</h2>
+            <p class="section-description fade-up">
+                Dos opciones diseñadas para potenciar tu crecimiento profesional y liderazgo
+            </p>
+        </div>
+        
+        <div class="membership-grid">
+            <div class="membership-card bronce fade-up">
+                <div class="plan-header">
+                    <span class="plan-badge bronce-badge">Bronce</span>
+                    <h3 class="plan-title">Bronce</h3>
+                    <div class="plan-price">
+                        <span class="price-currency">$</span>
+                        <span class="price-amount">20</span>
+                        <span class="price-period">/mes</span>
+                    </div>
+                    <p class="plan-subtitle">Para emprendedores y profesionales en crecimiento</p>
+                </div>
+                
+                <ul class="plan-features">
+                    <li>✓ Lorem ipsum</li>
+                    <li>✓ Lorem ipsum</li>
+                    <li>✓ Lorem ipsum</li>
+                    <li>✓ Lorem ipsum</li>
+                    <li>✓ Lorem ipsum</li>
+                    <li>✓ Lorem ipsum</li>
+                </ul>
+                
+                <button class="plan-cta bronce-cta">Comenzar con Bronce</button>
+            </div>
+            
+            <div class="membership-card gold fade-up">
+                <div class="plan-header">
+                    <span class="plan-badge gold-badge">Gold</span>
+                    <h3 class="plan-title">Gold</h3>
+                    <div class="plan-price">
+                        <span class="price-currency">$</span>
+                        <span class="price-amount">35</span>
+                        <span class="price-period">/mes</span>
+                    </div>
+                    <p class="plan-subtitle">Para líderes que buscan crecimiento exponencial</p>
+                </div>
+                
+                <ul class="plan-features">
+                    <li>✓ <strong>Todo lo del plan Bronce, más:</strong></li>
+                    <li>✓ Lorem ipsum</li>
+                    <li>✓ Lorem ipsum</li>
+                    <li>✓ Lorem ipsum</li>
+                    <li>✓ Lorem ipsum</li>
+                    <li>✓ Lorem ipsum</li>
+                    <li>✓ Lorem ipsum</li>
+                    <li>✓ Lorem ipsum</li>
+                </ul>
+                
+                <button class="plan-cta gold-cta">Comenzar con Gold</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Final CTA -->
+    <section id ="cta" class="final-cta section">
+        <div class="container">
+            <div class="cta-content fade-up">
+                <h2 class="cta-title">¿Listo para Brillar con Luz Propia?</h2>
+                <p class="cta-description">
+                    Da tu primer paso hoy y forma parte de esta comunidad de líderes vigentes.
+                </p>
+                <a href="#membership" class="final-cta-button">
+                    <span>Únete a Gente Vigente</span>
+                    <span class="cta-arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="footer-logo">GENTE VIGENTE</div>
+                    <p class="footer-tagline">Crea, Trasciende, Lidera</p>
+                </div>
+                
+                <nav class="footer-nav">
+                    <div class="footer-section">
+                        <h4>Empresa</h4>
+                        <a href="#">Sobre Nosotros</a>
+                        <a href="#">Misión y Visión</a>
+                        <a href="#">Equipo</a>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Soporte</h4>
+                        <a href="#">Contacto</a>
+                        <a href="#">FAQ</a>
+                        <a href="#">Ayuda</a>
+                    </div>
+                </nav>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-social">
+                    <a href="#" class="social-link">
+                        <span>LinkedIn</span>
+                    </a>
+                </div>
+                
+                <div class="footer-legal">
+                    <p>&copy; 2025 Gente Vigente. Todos los derechos reservados.</p>
+                    <div class="legal-links">
+                        <a href="#">Términos</a>
+                        <a href="#">Privacidad</a>
+                        <a href="#">Cookies</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script src="js/script.js"></script>
 </body>
