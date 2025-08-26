@@ -9,13 +9,13 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar" href ="#hero">
+    <nav class="navbar">
         <div class="nav-container" >
-            <div class="nav-logo" >GENTE VIGENTE</div>
+            <div class="nav-logo">GENTE VIGENTE</div>
             <div class="nav-menu">
                 <a href="#manifesto" class="nav-link">Manifiesto</a>
                 <a href="#nosotros" class="nav-link">Nosotros</a>
-                <a href="backend/login.html" class="nav-link nav-cta">Acceso Miembros</a>
+                <a href="login.php" class="nav-link nav-cta">Acceso Miembros</a>
             </div>
             <div class="mobile-menu-toggle">
                 <span></span>
@@ -211,7 +211,10 @@
                     <li>Lorem Ipsum</li>
                 </ul>
                 
-                <button class="plan-cta bronze-cta">Comenzar con Bronce</button>
+                <button class="plan-cta bronze-cta" onclick="window.location.href='backend/test-email.php'">
+                    Comenzar con Bronce
+                  </button>
+                  
             </div>
             
             <div class="membership-card gold fade-up">
@@ -234,7 +237,9 @@
                     <li>Lorem Ipsum</li>
                 </ul>
                 
-                <button class="plan-cta gold-cta">Comenzar con Gold</button>
+                <button class="plan-cta gold-cta" onclick="window.location.href='backend/test-email.php'">
+                    Comenzar con Gold
+                </button>
             </div>
         </div>
     </div>
