@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Gente Vigente</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/login.css">
+
+</head>
+<body>
+    <div class="geometric-circle"></div>
+    <div class="geometric-lines"></div>
+    
+    <div class="login-wrapper">
+        <div class="login-container">
+            <div class="login-header">
+                <div class="logo-container">
+                    <img src="../img/GenteVigente.png" alt="Gente Vigente" class="main-logo">
+                </div>
+                <h1 class="login-title">Acceso Miembros</h1>
+                <p class="login-subtitle">Ingresa a tu área exclusiva</p>
+            </div>
+            
+            <div id="alert" class="alert"></div>
+            
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        class="form-input" 
+                        placeholder="Correo Electronico"
+                        required
+                        autocomplete="email"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        class="form-input" 
+                        placeholder="Contraseña"
+                        required
+                        autocomplete="current-password"
+                    >
+                </div>
+                
+                <div class="form-group full-width">
+                    <button type="submit" id="loginBtn" class="btn-login">
+                        Iniciar Sesión
+                    </button>
+                </div>
+            </form>
+            
+            <div class="login-links">
+                <a href="#" onclick="showForgotPassword()" class="forgot-link">
+                    ¿Olvidaste tu contraseña?
+                </a>
+            </div>
+            
+            <div style="text-align: center;">
+                <a href="../index.html" class="back-link">
+                    ← Volver al sitio principal
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Usuarios de prueba
+        const testUsers = {
+            'admin@gentevigente.com': {
+                password: 'admin123',
+                name: 'Administrador',
+                membership: 'gold'
+            },
+            'usuario@gentevigente.com': {
+                password: 'usuario123',
+                name: 'Usuario Demo',
+                membership: 'bronce'
+            }
+        };
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            alert.style.display = 'block';
+            
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 5000);
+        }
+
+        function showForgotPassword() {
+            showAlert('Nada aun..', 'error');
+        }
+
+        function setLoadingState(isLoading) {
+            const btn = document.getElementById('loginBtn');
+            const form = document.getElementById('loginForm');
+            
+            if (isLoading) {
+                btn.classList.add('loading');
+                btn.disabled = true;
+                form.style.pointerEvents = 'none';
+            } else {
+                btn.classList.remove('loading');
+                btn.disabled = false;
+                form.style.pointerEvents = 'auto';
+            }
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            
+            // Validación
+            if (!email || !password) {
+                showAlert('Por favor, completa todos los campos.', 'error');
+                return;
+            }
+            
+            if (!email.includes('@')) {
+                showAlert('Por favor, ingresa un email válido.', 'error');
+                return;
+            }
+            
+            // Estado de carga
+            setLoadingState(true);
+            
+            // Simular delay de red
+            setTimeout(() => {
+                if (testUsers[email] && testUsers[email].password === password) {
+                    // Login exitoso
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userEmail', email);
+                    localStorage.setItem('userName', testUsers[email].name);
+                    localStorage.setItem('userMembership', testUsers[email].membership);
+                    
+                    showAlert('Login exitoso!', 'success');
+                    
+                    setTimeout(() => {
+                        window.location.href = '../dashboard.html';
+                    }, 1500);
+                } else {
+                    showAlert('Email o contraseña incorrectos.', 'error');
+                    setLoadingState(false);
+                }
+            }, 800);
+        });
+
+        // Auto-focus y efectos
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                document.getElementById('email').focus();
+            }, 300);
+            
+            // Agregar efectos de hover mejorados
+            const inputs = document.querySelectorAll('.form-input');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'translateY(-2px)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'translateY(0)';
+                });
+            });
+        });
+
+        // Manejo de errores globales
+        window.addEventListener('error', function(e) {
+            console.error('Error:', e.error);
+            showAlert('Ha ocurrido un error inesperado.', 'error');
+        });
+    </script>
+</body>
+</html>

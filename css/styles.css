@@ -693,53 +693,70 @@ body {
 .author-info p {
     color: var(--text-color);
     font-size: 0.9rem;
-}
-/* Membresía Section - Compatible con tu estructura */
-.membersia-section {
+}/* Sección de Membresía - Optimizada */
+.membership-section {
     background: #f8f8f8;
     padding: 6rem 2rem;
+    position: relative;
 }
 
-.membersia-grid {
+.membership-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 3rem;
+    gap: 2rem;
     margin-top: 3rem;
-    max-width: 900px;
+    max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
 }
 
-.membersia-card {
+/* Tarjetas de membresía - Transiciones simplificadas */
+.membership-card {
     background: #fff;
     padding: 2.5rem;
-    border-radius: 25px;
+    border-radius: 20px;
     text-align: center;
     position: relative;
-    transition: all 0.4s ease;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
     border: 2px solid transparent;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    transform: translateZ(0); /* Fuerza aceleración de hardware */
 }
 
-.membersia-card.bronce {
+/* Estados base */
+.membership-card.bronze {
     border-color: #CD7F32;
 }
 
-.membersia-card.gold {
+.membership-card.gold {
     border-color: var(--primary-color);
-    transform: scale(1.05);
     background: linear-gradient(135deg, #fff 0%, #fefbf3 100%);
 }
 
-.membersia-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+/* Badge "Más Popular" */
+.popular-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%) translateZ(0);
+    background: var(--primary-color);
+    color: #fff;
+    padding: 0.5rem 1.5rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(199, 139, 66, 0.3);
 }
 
-.membersia-card.gold:hover {
-    transform: translateY(-10px) scale(1.05);
+/* Hover effects uniformes para ambas cards */
+.membership-card:hover {
+    transform: translateY(-5px) translateZ(0);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
 }
 
+/* Header del plan */
 .plan-header {
     margin-bottom: 2rem;
 }
@@ -748,6 +765,7 @@ body {
     display: inline-block;
     padding: 0.5rem 1.2rem;
     border-radius: 20px;
+    font-family: 'Gotham', 'Helvetica Neue', Arial, sans-serif;
     font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -755,41 +773,43 @@ body {
     margin-bottom: 1rem;
 }
 
-.bronce-badge {
+.bronze-badge {
     background: rgba(205, 127, 50, 0.1);
     color: #CD7F32;
     border: 1px solid rgba(205, 127, 50, 0.3);
 }
 
 .gold-badge {
-    background: rgba(212, 175, 55, 0.1);
+    background: rgba(199, 139, 66, 0.1);
     color: var(--primary-color);
-    border: 1px solid rgba(212, 175, 55, 0.3);
+    border: 1px solid rgba(199, 139, 66, 0.3);
 }
 
 .plan-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Trajan Pro', 'Cinzel', serif;
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--secondary-color);
     margin-bottom: 1rem;
 }
 
+/* Precios */
 .plan-price {
     display: flex;
     align-items: baseline;
     justify-content: center;
-    gap: 0.2rem;
+    gap: 0.3rem;
     margin-bottom: 1rem;
 }
 
 .price-currency {
+    font-family: 'Gotham', 'Helvetica Neue', Arial, sans-serif;
     font-size: 1.5rem;
     font-weight: 600;
 }
 
 .price-amount {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Trajan Pro', 'Cinzel', serif;
     font-size: 3rem;
     font-weight: 900;
     line-height: 1;
@@ -797,11 +817,12 @@ body {
 
 .price-period {
     color: var(--text-color);
+    font-family: 'Gotham', 'Helvetica Neue', Arial, sans-serif;
     font-size: 1rem;
 }
 
-.bronce .price-currency,
-.bronce .price-amount {
+.bronze .price-currency,
+.bronze .price-amount {
     color: #CD7F32;
 }
 
@@ -812,11 +833,13 @@ body {
 
 .plan-subtitle {
     color: var(--text-color);
+    font-family: 'Gotham', 'Helvetica Neue', Arial, sans-serif;
     font-size: 1rem;
     margin-bottom: 2rem;
     line-height: 1.4;
 }
 
+/* Features list */
 .plan-features {
     list-style: none;
     margin-bottom: 2rem;
@@ -824,75 +847,197 @@ body {
 }
 
 .plan-features li {
-    padding: 0.7rem 0;
+    padding: 0.8rem 0;
     color: var(--secondary-color);
     position: relative;
-    padding-left: 1.5rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding-left: 1.8rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    font-family: 'Gotham', 'Helvetica Neue', Arial, sans-serif;
     font-size: 0.95rem;
+    line-height: 1.4;
 }
 
 .plan-features li::before {
-    content: '';
+    content: '✓';
     position: absolute;
     left: 0;
     top: 0.8rem;
-    width: 0;
-    height: 0;
+    font-weight: bold;
+    font-size: 1rem;
 }
 
-.bronce .plan-features li {
-    color: #444;
+.bronze .plan-features li::before {
+    color: #CD7F32;
 }
 
-.gold .plan-features li {
-    color: #444;
+.gold .plan-features li::before {
+    color: var(--primary-color);
 }
 
 .plan-features li:last-child {
     border-bottom: none;
 }
 
+/* Botones CTA mejorados */
 .plan-cta {
     width: 100%;
     padding: 1.2rem 2rem;
     border: none;
     border-radius: 25px;
+    font-family: 'Gotham', 'Helvetica Neue', Arial, sans-serif;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-size: 1rem;
-    margin-bottom: 1rem;
+    position: relative;
+    overflow: hidden;
 }
 
-.bronce-cta {
+.bronze-cta {
     background: #CD7F32;
     color: #fff;
 }
 
-.bronce-cta:hover {
+.bronze-cta:hover {
     background: #B8691A;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(205, 127, 50, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(205, 127, 50, 0.3);
 }
 
 .gold-cta {
     background: var(--primary-color);
-    color: var(--secondary-color);
+    color: #fff;
 }
 
 .gold-cta:hover {
     background: var(--highlight-color);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(199, 139, 66, 0.3);
 }
 
-.plan-note {
-    font-size: 0.9rem;
-    color: var(--text-color);
-    font-style: italic;
+/* Responsive Design */
+@media (max-width: 768px) {
+    .membership-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        max-width: 400px;
+    }
+    
+    .membership-card {
+        padding: 2rem;
+    }
+    
+    /* Gold card pierde featured style en móvil */
+    .membership-card.gold {
+        order: -1; /* Mostrar primero en móvil */
+    }
+    
+    .popular-badge {
+        position: static;
+        transform: none;
+        margin-bottom: 1rem;
+        display: inline-block;
+    }
+}
+
+@media (max-width: 480px) {
+    .membership-section {
+        padding: 4rem 1rem;
+    }
+    
+    .membership-card {
+        padding: 1.5rem;
+    }
+    
+    .plan-price {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .price-amount {
+        font-size: 2.5rem;
+    }
+}
+
+/* Animaciones de entrada suaves */
+.membership-card.fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.membership-card.fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Optimización adicional para evitar trabado */
+.membership-card {
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 20px;
+    text-align: center;
+    position: relative;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    border: 2px solid transparent;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    transform: translateZ(0); /* Fuerza aceleración de hardware */
+    backface-visibility: hidden; /* Previene parpadeos */
+    -webkit-backface-visibility: hidden;
+}
+
+/* Estados base */
+.membership-card.bronze {
+    border-color: #CD7F32;
+}
+
+.membership-card.gold {
+    border-color: var(--primary-color);
+    background: linear-gradient(135deg, #fff 0%, #fefbf3 100%);
+}
+
+/* Badge "Más Popular" */
+.popular-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%) translateZ(0);
+    background: var(--primary-color);
+    color: #fff;
+    padding: 0.5rem 1.5rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(199, 139, 66, 0.3);
+}
+
+/* Hover effects uniformes - SIN diferenciación entre bronze y gold */
+.membership-card:hover {
+    transform: translateY(-5px) translateZ(0);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* Botones con efecto ripple opcional */
+.plan-cta::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.plan-cta:active::before {
+    width: 300px;
+    height: 300px;
 }
 
 /* Comparación de membresías */
@@ -1382,15 +1527,7 @@ body {
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
-    
-    .membersia-card.featured {
-        transform: none;
-    }
-    
-    .membersia-card.featured:hover {
-        transform: translateY(-10px);
-    }
-    
+     
     .nosotros-stats {
         flex-direction: column;
         gap: 1.5rem;

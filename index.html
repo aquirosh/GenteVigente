@@ -9,12 +9,13 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">GENTE VIGENTE</div>
+    <nav class="navbar" href ="#hero">
+        <div class="nav-container" >
+            <div class="nav-logo" >GENTE VIGENTE</div>
             <div class="nav-menu">
+                <a href="#manifesto" class="nav-link">Manifiesto</a>
                 <a href="#nosotros" class="nav-link">Nosotros</a>
-                <a href="" class="nav-link nav-cta">Acceso Miembros</a>
+                <a href="backend/login.html" class="nav-link nav-cta">Acceso Miembros</a>
             </div>
             <div class="mobile-menu-toggle">
                 <span></span>
@@ -25,7 +26,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id ="hero">
         <div class="geometric-circle"></div>
         <div class="geometric-lines"></div>
 
@@ -35,14 +36,14 @@
     
         <div class="hero-content">
             <span class="hero-badge fade-up">Comunidad de Líderes</span>
-            <h1 class="hero-title fade-up">Se Gente Vigente</h1>
+            <h1 class="hero-title fade-up">Sé Gente Vigente</h1>
             <p class="hero-subtitle fade-up">Crea, Trasciende, Lidera</p>
             <p class="hero-description fade-up">
                 Así como el sol, la luna y las estrellas permanecen con su brillo, 
                 así debemos ser las personas: siempre vigentes y con brillo propio.
             </p>
 
-            <a href="#cta" class="hero-cta fade-up nav-link">
+            <a href="#membersia" class="hero-cta fade-up nav-link">
                 <span>Únete Ahora</span>
                 <span class="cta-arrow">→</span>
             </a>
@@ -50,7 +51,7 @@
     </section>
 
     <!-- Manifesto Section -->
-    <section class="manifesto section">
+    <section class="manifesto section" id = "manifesto">
         <div class="container">
             <div class="section-header fade-up">
                 <span class="section-badge">Nuestra Filosofía</span>
@@ -87,9 +88,6 @@
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
                         incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
                         exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
-                        <!-- Somos una comunidad exclusiva de profesionales comprometidos con la excelencia. 
-                        Nuestro enfoque se basa en el desarrollo integral de líderes que marquen la diferencia 
-                        en sus industrias y comunidades. -->
                     </p>
                     <p class="section-description fade-up">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -181,8 +179,8 @@
             </div>
         </div>
     </section>
-   <!-- Membresía (Gris Claro) -->
-<section id="membresia" class="membersia-section">
+   <!-- Membresía -->
+   <section class="membership-section" id="membersia">
     <div class="container">
         <div class="section-header">
             <span class="section-badge fade-up">Planes de Membresía</span>
@@ -192,10 +190,10 @@
             </p>
         </div>
         
-        <div class="membersia-grid">
-            <div class="membersia-card bronce fade-up">
+        <div class="membership-grid">
+            <div class="membership-card bronze fade-up">
                 <div class="plan-header">
-                    <span class="plan-badge bronce-badge">Bronce</span>
+                    <span class="plan-badge bronze-badge">Bronce</span>
                     <h3 class="plan-title">Bronce</h3>
                     <div class="plan-price">
                         <span class="price-currency">$</span>
@@ -206,18 +204,17 @@
                 </div>
                 
                 <ul class="plan-features">
-                    <li>✓ Lorem ipsum</li>
-                    <li>✓ Lorem ipsum</li>
-                    <li>✓ Lorem ipsum</li>
-                    <li>✓ Lorem ipsum</li>
-                    <li>✓ Lorem ipsum</li>
-                    <li>✓ Lorem ipsum</li>
+                    <li>Lorem Ipsum</li>
+                    <li>Lorem Ipsum</li>
+                    <li>Lorem Ipsum</li>
+                    <li>Lorem Ipsum</li>
+                    <li>Lorem Ipsum</li>
                 </ul>
                 
-                <button class="plan-cta bronce-cta">Comenzar con Bronce</button>
+                <button class="plan-cta bronze-cta">Comenzar con Bronce</button>
             </div>
             
-            <div class="membersia-card gold fade-up">
+            <div class="membership-card gold fade-up">
                 <div class="plan-header">
                     <span class="plan-badge gold-badge">Gold</span>
                     <h3 class="plan-title">Gold</h3>
@@ -230,14 +227,11 @@
                 </div>
                 
                 <ul class="plan-features">
-                    <li>✓ <strong>Todo lo del plan Bronce, más:</strong></li>
-                    <li>✓ Lorem ipsum</li>
-                    <li>✓ Lorem ipsum</li>
-                    <li>✓ Lorem ipsum</li>
-                    <li>✓ Lorem ipsum</li>
-                    <li>✓ Lorem ipsum</li>
-                    <li>✓ Lorem ipsum</li>
-                    <li>✓ Lorem ipsum</li>
+                    <li><strong>Todo lo del plan Bronce, más:</strong></li>
+                    <li>Lorem Ipsum</li>
+                    <li>Lorem Ipsum</li>
+                    <li>Lorem Ipsum</li>
+                    <li>Lorem Ipsum</li>
                 </ul>
                 
                 <button class="plan-cta gold-cta">Comenzar con Gold</button>
