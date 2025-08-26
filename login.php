@@ -1,10 +1,19 @@
 <?php
-// login.php - Conversión manteniendo diseño original
+// login.php - VERSIÓN ARREGLADA
 session_start();
+
+// Debug para desarrollo (eliminar en producción)
+$isDebug = ($_SERVER['HTTP_HOST'] === 'localhost' || strpos($_SERVER['HTTP_HOST'], '.local') !== false);
 
 // Redireccionar si ya está logueado
 if (isset($_SESSION['user_id'])) {
-    header('Location: dashboard.html');
+    if ($isDebug) {
+        echo "<div style='background: yellow; padding: 10px; margin: 10px; border-radius: 5px;'>";
+        echo "🔄 Usuario ya logueado (ID: " . $_SESSION['user_id'] . "). Redirigiendo...";
+        echo "</div>";
+        sleep(1);
+    }
+    header('Location: dashboard.php');
     exit;
 }
 
@@ -16,6 +25,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
+    
+    if ($isDebug) {
+        echo "<div style='background: lightblue; padding: 10px; margin: 10px; border-radius: 5px;'>";
+        echo "🔍 <strong>LOGIN ATTEMPT:</strong><br>";
+        echo "Email: " . htmlspecialchars($email) . "<br>";
+        echo "Password length: " . strlen($password) . " chars<br>";
+        echo "</div>";
+    }
     
     if (empty($email) || empty($password)) {
         $error = 'Por favor, completa todos los campos.';
@@ -32,46 +49,107 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->execute([$email]);
             $user = $stmt->fetch();
             
+            if ($isDebug) {
+                echo "<div style='background: lightyellow; padding: 10px; margin: 10px; border-radius: 5px;'>";
+                if ($user) {
+                    echo "✅ <strong>Usuario encontrado:</strong><br>";
+                    echo "ID: " . $user['id'] . "<br>";
+                    echo "Email: " . $user['email'] . "<br>";
+                    echo "Nombre: " . $user['first_name'] . " " . $user['last_name'] . "<br>";
+                    echo "Plan: " . $user['subscription_type'] . "<br>";
+                    echo "Estado: " . $user['subscription_status'] . "<br>";
+                    echo "Primer login: " . ($user['first_time_login'] ? 'SÍ' : 'NO') . "<br>";
+                } else {
+                    echo "❌ <strong>Usuario NO encontrado en BD</strong>";
+                }
+                echo "</div>";
+            }
+            
             if ($user && password_verify($password, $user['password_hash'])) {
+                if ($isDebug) {
+                    echo "<div style='background: lightgreen; padding: 10px; margin: 10px; border-radius: 5px;'>";
+                    echo "✅ <strong>Contraseña correcta</strong><br>";
+                }
+                
                 // Verificar que la suscripción esté activa
                 if ($user['subscription_status'] !== 'active') {
-                    $error = 'Tu suscripción no está activa. Contacta soporte.';
+                    $error = 'Tu suscripción no está activa (' . $user['subscription_status'] . '). Contacta soporte.';
+                    if ($isDebug) {
+                        echo "❌ Suscripción no activa: " . $user['subscription_status'] . "<br>";
+                        echo "</div>";
+                    }
                 } else {
-                    // Login exitoso
+                    if ($isDebug) {
+                        echo "✅ Suscripción activa<br>";
+                    }
+                    
+                    // Login exitoso - CREAR SESIÓN
                     $_SESSION['user_id'] = $user['id'];
                     $_SESSION['user_email'] = $user['email'];
                     $_SESSION['user_name'] = trim($user['first_name'] . ' ' . $user['last_name']) ?: $user['email'];
                     $_SESSION['subscription_type'] = $user['subscription_type'];
                     
+                    if ($isDebug) {
+                        echo "✅ Sesión creada<br>";
+                        echo "Variables de sesión:<br>";
+                        echo "- user_id: " . $_SESSION['user_id'] . "<br>";
+                        echo "- user_email: " . $_SESSION['user_email'] . "<br>";
+                        echo "- user_name: " . $_SESSION['user_name'] . "<br>";
+                        echo "- subscription_type: " . $_SESSION['subscription_type'] . "<br>";
+                    }
+                    
                     // Actualizar último login
-                    $stmt = $pdo->prepare("UPDATE users SET last_login = NOW() WHERE id = ?");
-                    $stmt->execute([$user['id']]);
-                    
-                    // Log de actividad (si tienes la función)
-                    if (function_exists('logActivity')) {
-                        logActivity($pdo, $user['id'], 'login', 'Login exitoso desde IP: ' . ($_SERVER['REMOTE_ADDR'] ?? 'unknown'));
+                    try {
+                        $stmt = $pdo->prepare("UPDATE users SET last_login = NOW() WHERE id = ?");
+                        $stmt->execute([$user['id']]);
+                        if ($isDebug) echo "✅ Último login actualizado<br>";
+                    } catch (Exception $e) {
+                        if ($isDebug) echo "⚠️ Error actualizando último login<br>";
                     }
                     
-                    // Redireccionar según si es primer login
-                    if ($user['first_time_login']) {
-                        header('Location: first-login.php');
+                    // Determinar redirección
+                    if ($user['first_time_login'] == 1) {
+                        // PRIMER LOGIN - ir a cambiar contraseña
+                        if ($isDebug) {
+                            echo "🔄 Primer login detectado - Redirigiendo a backend/first-login.php<br>";
+                            echo "</div>";
+                            echo "<script>setTimeout(() => window.location.href = 'backend/first-login.php', 2000);</script>";
+                        } else {
+                            header('Location: backend/first-login.php');
+                            exit;
+                        }
                     } else {
-                        header('Location: dashboard.html');
+                        // LOGIN NORMAL - ir al dashboard
+                        if ($isDebug) {
+                            echo "LOGIN NORMAL - Redirigiendo a dashboard.php<br>";
+                            echo "</div>";
+                            echo "<script>setTimeout(() => window.location.href = 'dashboard.php', 2000);</script>";
+                        } else {
+                            header('Location: dashboard.php');
+                            exit;
+                        }
                     }
-                    exit;
                 }
             } else {
+                // Contraseña incorrecta
                 $error = 'Email o contraseña incorrectos.';
                 
-                // Opcional: Log de intento fallido
-                if (function_exists('logActivity') && $user) {
-                    logActivity($pdo, $user['id'], 'login', 'Intento de login fallido');
+                if ($isDebug) {
+                    echo "<div style='background: lightcoral; padding: 10px; margin: 10px; border-radius: 5px;'>";
+                    echo "❌ <strong>Contraseña incorrecta</strong>";
+                    echo "</div>";
                 }
             }
             
         } catch (PDOException $e) {
             error_log("Error en login: " . $e->getMessage());
             $error = 'Error del servidor. Intenta de nuevo en unos momentos.';
+            
+            if ($isDebug) {
+                echo "<div style='background: lightcoral; padding: 10px; margin: 10px; border-radius: 5px;'>";
+                echo "💥 <strong>Error de BD:</strong> " . $e->getMessage();
+                echo "</div>";
+            }
         }
     }
 }
@@ -164,11 +242,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
 
             <!-- Información de testing (solo para desarrollo) -->
-            <?php if ($_SERVER['HTTP_HOST'] === 'localhost' || strpos($_SERVER['HTTP_HOST'], '.local') !== false): ?>
+            <?php if ($isDebug): ?>
             <div style="margin-top: 2rem; padding: 1rem; background: #f0f9ff; border-radius: 8px; font-size: 0.8rem; color: #0369a1;">
-                <strong>🧪 Usuarios de Prueba (Solo en desarrollo):</strong><br>
-                <strong>Gold:</strong> test@genteivigente.com / password123<br>
-                <strong>Admin:</strong> admin@gentevigente.com / admin123
+                <strong>🧪 DEBUG MODE ACTIVO</strong><br>
+                <?php 
+                // Mostrar algunos usuarios de la BD para testing
+                try {
+                    $stmt = $pdo->query("SELECT email, first_name, subscription_type FROM users ORDER BY created_at DESC LIMIT 3");
+                    echo "<strong>Usuarios recientes:</strong><br>";
+                    while ($testUser = $stmt->fetch()) {
+                        echo "• " . $testUser['email'] . " (" . $testUser['subscription_type'] . ")<br>";
+                    }
+                } catch (Exception $e) {
+                    echo "Error consultando usuarios de prueba";
+                }
+                ?>
             </div>
             <?php endif; ?>
         </div>
@@ -227,9 +315,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             // Activar estado de carga
             setLoadingState(true);
-            
-            // El formulario continuará con el submit normal a PHP
-            // El estado de carga se mantendrá hasta que la página se recargue o redireccione
         });
 
         // Auto-focus y efectos originales
@@ -256,19 +341,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             console.error('Error:', e.error);
             showAlert('Ha ocurrido un error inesperado.', 'error');
         });
-
-        // Función para mostrar usuarios de prueba (solo en desarrollo)
-        <?php if ($_SERVER['HTTP_HOST'] === 'localhost' || strpos($_SERVER['HTTP_HOST'], '.local') !== false): ?>
-        function fillTestUser(type) {
-            if (type === 'admin') {
-                document.getElementById('email').value = 'admin@gentevigente.com';
-                document.getElementById('password').value = 'admin123';
-            } else {
-                document.getElementById('email').value = 'test@genteivigente.com';
-                document.getElementById('password').value = 'password123';
-            }
-        }
-        <?php endif; ?>
     </script>
 
     <!-- CSS adicional para los mensajes de alerta que vienen del servidor -->
@@ -278,34 +350,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             border: 1px solid rgba(59, 130, 246, 0.2);
             color: #2563eb;
         }
-        
-        /* Estilo para la información de testing */
-        .testing-info {
-            margin-top: 2rem;
-            padding: 1rem;
-            background: #f0f9ff;
-            border: 1px solid #bae6fd;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            color: #0369a1;
-        }
-        
-        .testing-info strong {
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-        
-        /* Hacer que los usuarios de prueba sean clickeables en desarrollo */
-        <?php if ($_SERVER['HTTP_HOST'] === 'localhost' || strpos($_SERVER['HTTP_HOST'], '.local') !== false): ?>
-        .test-user {
-            cursor: pointer;
-            text-decoration: underline;
-        }
-        
-        .test-user:hover {
-            color: var(--primary-color);
-        }
-        <?php endif; ?>
     </style>
 </body>
 </html>

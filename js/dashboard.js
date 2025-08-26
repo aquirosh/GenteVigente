@@ -1,4 +1,4 @@
-// dashboard.js - JavaScript sencillo para el dashboard
+// dashboard.js - JavaScript actualizado para trabajar con sesiones PHP
 
 // Variables globales
 let currentSection = 'dashboard';
@@ -8,71 +8,45 @@ let isInitialized = false;
 document.addEventListener('DOMContentLoaded', function() {
     if (isInitialized) return;
     
-    if (checkAuth()) {
-        loadUserData();
-        initNavigation();
-        initMobileMenu();
-        isInitialized = true;
-        console.log('✅ Dashboard Gente Vigente cargado');
-    }
+    // Ya no necesitamos checkAuth() porque dashboard.php maneja la autenticación
+    loadUserData();
+    initNavigation();
+    initMobileMenu();
+    isInitialized = true;
+    console.log('Dashboard Gente Vigente cargado');
 });
 
-// Verificar autenticación
-function checkAuth() {
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
-    const userName = localStorage.getItem('userName');
-    
-    if (isLoggedIn !== 'true' || !userName) {
-        // Solo redirigir si no estamos ya en la página de login
-        if (!window.location.href.includes('backend/login.html')) {
-            window.location.href = '../index.html';
-        }
-        return false;
-    }
-    return true;
-}
-
-// Cargar datos del usuario
+// Cargar datos del usuario (desde variables PHP globales)
 function loadUserData() {
     try {
-        const userName = localStorage.getItem('userName') || 'Usuario';
-        const userEmail = localStorage.getItem('userEmail') || 'usuario@email.com';
-        const userMembership = localStorage.getItem('userMembership') || 'bronce';
-        
-        // Generar iniciales de forma segura
-        const nameParts = userName.trim().split(' ');
-        const initials = nameParts.map(name => name.charAt(0).toUpperCase()).join('').substring(0, 2) || 'U';
-        
-        // Actualizar elementos del DOM de forma segura
-        const elements = {
-            'userName': userName,
-            'userEmail': userEmail,
-            'userInitials': initials,
-            'profileName': userName,
-            'profileNameDisplay': userName,
-            'profileEmailDisplay': userEmail
-        };
-        
-        Object.keys(elements).forEach(id => {
-            const element = document.getElementById(id);
-            if (element) {
-                element.textContent = elements[id];
-            }
-        });
-        
-        // Configurar membresía
-        const membershipBadge = document.getElementById('profileMembership');
-        if (membershipBadge) {
-            if (userMembership === 'gold') {
-                membershipBadge.textContent = 'Gold';
-                membershipBadge.classList.add('gold');
-            } else {
-                membershipBadge.textContent = 'Bronce';
-            }
+        // Los datos vienen de PHP a través de window.userData
+        if (window.userData) {
+            const userName = window.userData.name || 'Usuario';
+            const userEmail = window.userData.email || 'usuario@email.com';
+            const userMembership = window.userData.subscription || 'bronce';
+            
+            // Generar iniciales de forma segura
+            const nameParts = userName.trim().split(' ');
+            const initials = nameParts.map(name => name.charAt(0).toUpperCase()).join('').substring(0, 2) || 'U';
+            
+            // Actualizar elementos del DOM que no fueron llenados por PHP
+            const elements = {
+                'userInitials': initials
+            };
+            
+            Object.keys(elements).forEach(id => {
+                const element = document.getElementById(id);
+                if (element && !element.textContent.trim()) {
+                    element.textContent = elements[id];
+                }
+            });
+            
+            // Manejar contenido exclusivo
+            handleExclusiveContent(userMembership);
+            
+        } else {
+            console.error('No se encontraron datos de usuario desde PHP');
         }
-        
-        // Manejar contenido exclusivo
-        handleExclusiveContent(userMembership);
         
     } catch (error) {
         console.error('Error cargando datos del usuario:', error);
@@ -147,7 +121,7 @@ function initContentEvents() {
         item.addEventListener('click', function() {
             const title = this.querySelector('h3').textContent;
             if (this.classList.contains('gold-only')) {
-                const membership = localStorage.getItem('userMembership');
+                const membership = window.userData ? window.userData.subscription : 'bronce';
                 if (membership !== 'gold') {
                     showMessage('Contenido exclusivo para miembros Gold');
                     return;
@@ -167,14 +141,14 @@ function initContentEvents() {
             const eventTitle = eventItem.querySelector('h3').textContent;
             
             if (this.classList.contains('gold-btn')) {
-                const membership = localStorage.getItem('userMembership');
+                const membership = window.userData ? window.userData.subscription : 'bronce';
                 if (membership !== 'gold') {
                     showMessage('Evento exclusivo para miembros Gold');
                     return;
                 }
             }
             
-            showMessage(`Registrado en: ${eventTitle}`);
+            showMessage(`Registrado en: ${title}`);
         });
     });
     
@@ -217,7 +191,7 @@ function createMobileToggle() {
         top: 20px;
         left: 20px;
         z-index: 1100;
-        background: var(--primary-color);
+        background: var(--primary-color, #c78b42);
         color: white;
         border: none;
         padding: 0.8rem;
@@ -256,7 +230,7 @@ function showMessage(message) {
         position: fixed;
         top: 20px;
         right: 20px;
-        background: var(--primary-color);
+        background: var(--primary-color, #c78b42);
         color: white;
         padding: 1rem 1.5rem;
         border-radius: 8px;
@@ -285,29 +259,22 @@ function showMessage(message) {
     }, 3000);
 }
 
-// Función de logout
+// Función de logout - Ahora usa el logout PHP
 function logout() {
     if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
         try {
-            // Limpiar datos
-            localStorage.removeItem('isLoggedIn');
-            localStorage.removeItem('userEmail');
-            localStorage.removeItem('userName');
-            localStorage.removeItem('userMembership');
-            localStorage.removeItem('lastAuthCheck');
-            
             // Mostrar mensaje
             showMessage('Cerrando sesión...');
             
-            // Redirigir después de un pequeño delay
+            // Redirigir al logout PHP
             setTimeout(() => {
-                window.location.href = '../index.html';
+                window.location.href = 'backend/logout.php';
             }, 500);
             
         } catch (error) {
             console.error('Error en logout:', error);
             // Forzar redirección en caso de error
-            window.location.href = '../index.html';
+            window.location.href = 'backend/logout.php';
         }
     }
 }
@@ -351,5 +318,25 @@ if ('ontouchstart' in window) {
     document.body.classList.add('touch-device');
 }
 
-// Log final
-console.log('🌟 Dashboard sencillo iniciado correctamente');
+// Verificación periódica de sesión (opcional)
+function checkSessionStatus() {
+    // Hacer una petición AJAX para verificar si la sesión sigue activa
+    fetch('backend/session-check.php')
+        .then(response => response.json())
+        .then(data => {
+            if (!data.active) {
+                showMessage('Sesión expirada. Redirigiendo...');
+                setTimeout(() => {
+                    window.location.href = 'login.php';
+                }, 2000);
+            }
+        })
+        .catch(error => {
+            console.error('Error verificando sesión:', error);
+        });
+}
+
+// Verificar sesión cada 10 minutos (opcional)
+setInterval(checkSessionStatus, 600000);
+
+console.log('Dashboard actualizado para sesiones PHP');

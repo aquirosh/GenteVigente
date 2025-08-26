@@ -1,5 +1,5 @@
 :root{
-    --primary-color: #c78b42; /* Color dorado/bronce */
+    --primary-colorr: #c78b42; /* Color dorado/bronce */
     --secondary-color: #1a1a1a; /* Color oscuro */
     --background-color: #fafafa; /* Color de fondo claro */
     --text-color: #666; /* Color de texto secundario */
@@ -49,7 +49,7 @@ body {
     font-family: 'Playfair Display', serif;
     font-size: 1.8rem;
     font-weight: 700;
-    color: var(--primary-color);
+    color: var(--primary-colorr);
     letter-spacing: 2px;
     text-transform: uppercase;
 }
@@ -78,7 +78,7 @@ body {
     left: 0;
     width: 0;
     height: 1px;
-    background: var(--primary-color);
+    background: var(--primary-colorr);
     transition: width 0.3s ease;
 }
 
@@ -87,11 +87,11 @@ body {
 }
 
 .nav-link:hover {
-    color: var(--primary-color);
+    color: var(--primary-colorr);
 }
 
 .nav-cta {
-    background: var(--primary-color);
+    background: var(--primary-colorr);
     color: var(--secondary-color);
     padding: 0.7rem 1.5rem;
     border-radius: 30px;
@@ -123,7 +123,7 @@ body {
 .mobile-menu-toggle span {
     width: 25px;
     height: 2px;
-    background: var(--primary-color);
+    background: var(--primary-colorr);
     transition: all 0.3s ease;
 }
 
@@ -208,7 +208,7 @@ body {
     display: inline-block;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--primary-color);
+    color: var(--primary-colorr);
     padding: 0.5rem 1.5rem;
     border-radius: 30px;
     font-size: 0.85rem;
@@ -232,7 +232,7 @@ body {
     font-family: 'Playfair Display', serif;
     font-size: clamp(1.5rem, 4vw, 2.5rem);
     font-weight: 400;
-    color: var(--primary-color);
+    color: var(--primary-colorr);
     margin-bottom: 2rem;
     font-style: italic;
 }
@@ -250,7 +250,7 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 1rem;
-    background: var(--primary-color);
+    background: var(--primary-colorr);
     color: var(--secondary-color);
     padding: 1.2rem 2.5rem;
     border-radius: 50px;
@@ -359,7 +359,7 @@ body {
 .section-badge {
     display: inline-block;
     background: rgba(212, 175, 55, 0.1);
-    color: var(--primary-color);
+    color: var(--primary-colorr);
     padding: 0.5rem 1.5rem;
     border-radius: 30px;
     font-size: 0.85rem;
@@ -504,7 +504,7 @@ body {
 }
 
 .product-link {
-    color: var(--primary-color);
+    color: var(--primary-colorr);
     font-weight: 600;
     font-size: 0.9rem;
     text-transform: uppercase;
@@ -560,7 +560,7 @@ body {
     font-family: 'Playfair Display', serif;
     font-size: 2.5rem;
     font-weight: 900;
-    color: var(--primary-color);
+    color: var(--primary-colorr);
     line-height: 1;
 }
 
@@ -675,7 +675,7 @@ body {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary-color), var(--highlight-color));
+    background: linear-gradient(135deg, var(--primary-colorr), var(--highlight-color));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -693,352 +693,8 @@ body {
 .author-info p {
     color: var(--text-color);
     font-size: 0.9rem;
-}/* Sección de Membresía - Optimizada */
-.membership-section {
-    background: #f8f8f8;
-    padding: 6rem 2rem;
-    position: relative;
 }
 
-.membership-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-    margin-top: 3rem;
-    max-width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Tarjetas de membresía - Transiciones simplificadas */
-.membership-card {
-    background: #fff;
-    padding: 2.5rem;
-    border-radius: 20px;
-    text-align: center;
-    position: relative;
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-    border: 2px solid transparent;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-    transform: translateZ(0); /* Fuerza aceleración de hardware */
-}
-
-/* Estados base */
-.membership-card.bronze {
-    border-color: #CD7F32;
-}
-
-.membership-card.gold {
-    border-color: var(--primary-color);
-    background: linear-gradient(135deg, #fff 0%, #fefbf3 100%);
-}
-
-/* Badge "Más Popular" */
-.popular-badge {
-    position: absolute;
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%) translateZ(0);
-    background: var(--primary-color);
-    color: #fff;
-    padding: 0.5rem 1.5rem;
-    border-radius: 15px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    box-shadow: 0 4px 15px rgba(199, 139, 66, 0.3);
-}
-
-/* Hover effects uniformes para ambas cards */
-.membership-card:hover {
-    transform: translateY(-5px) translateZ(0);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
-}
-
-/* Header del plan */
-.plan-header {
-    margin-bottom: 2rem;
-}
-
-.plan-badge {
-    display: inline-block;
-    padding: 0.5rem 1.2rem;
-    border-radius: 20px;
-    font-family: 'Gotham', 'Helvetica Neue', Arial, sans-serif;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 1rem;
-}
-
-.bronze-badge {
-    background: rgba(205, 127, 50, 0.1);
-    color: #CD7F32;
-    border: 1px solid rgba(205, 127, 50, 0.3);
-}
-
-.gold-badge {
-    background: rgba(199, 139, 66, 0.1);
-    color: var(--primary-color);
-    border: 1px solid rgba(199, 139, 66, 0.3);
-}
-
-.plan-title {
-    font-family: 'Trajan Pro', 'Cinzel', serif;
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--secondary-color);
-    margin-bottom: 1rem;
-}
-
-/* Precios */
-.plan-price {
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 0.3rem;
-    margin-bottom: 1rem;
-}
-
-.price-currency {
-    font-family: 'Gotham', 'Helvetica Neue', Arial, sans-serif;
-    font-size: 1.5rem;
-    font-weight: 600;
-}
-
-.price-amount {
-    font-family: 'Trajan Pro', 'Cinzel', serif;
-    font-size: 3rem;
-    font-weight: 900;
-    line-height: 1;
-}
-
-.price-period {
-    color: var(--text-color);
-    font-family: 'Gotham', 'Helvetica Neue', Arial, sans-serif;
-    font-size: 1rem;
-}
-
-.bronze .price-currency,
-.bronze .price-amount {
-    color: #CD7F32;
-}
-
-.gold .price-currency,
-.gold .price-amount {
-    color: var(--primary-color);
-}
-
-.plan-subtitle {
-    color: var(--text-color);
-    font-family: 'Gotham', 'Helvetica Neue', Arial, sans-serif;
-    font-size: 1rem;
-    margin-bottom: 2rem;
-    line-height: 1.4;
-}
-
-/* Features list */
-.plan-features {
-    list-style: none;
-    margin-bottom: 2rem;
-    text-align: left;
-}
-
-.plan-features li {
-    padding: 0.8rem 0;
-    color: var(--secondary-color);
-    position: relative;
-    padding-left: 1.8rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    font-family: 'Gotham', 'Helvetica Neue', Arial, sans-serif;
-    font-size: 0.95rem;
-    line-height: 1.4;
-}
-
-.plan-features li::before {
-    content: '✓';
-    position: absolute;
-    left: 0;
-    top: 0.8rem;
-    font-weight: bold;
-    font-size: 1rem;
-}
-
-.bronze .plan-features li::before {
-    color: #CD7F32;
-}
-
-.gold .plan-features li::before {
-    color: var(--primary-color);
-}
-
-.plan-features li:last-child {
-    border-bottom: none;
-}
-
-/* Botones CTA mejorados */
-.plan-cta {
-    width: 100%;
-    padding: 1.2rem 2rem;
-    border: none;
-    border-radius: 25px;
-    font-family: 'Gotham', 'Helvetica Neue', Arial, sans-serif;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 1rem;
-    position: relative;
-    overflow: hidden;
-}
-
-.bronze-cta {
-    background: #CD7F32;
-    color: #fff;
-}
-
-.bronze-cta:hover {
-    background: #B8691A;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(205, 127, 50, 0.3);
-}
-
-.gold-cta {
-    background: var(--primary-color);
-    color: #fff;
-}
-
-.gold-cta:hover {
-    background: var(--highlight-color);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(199, 139, 66, 0.3);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .membership-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-        max-width: 400px;
-    }
-    
-    .membership-card {
-        padding: 2rem;
-    }
-    
-    /* Gold card pierde featured style en móvil */
-    .membership-card.gold {
-        order: -1; /* Mostrar primero en móvil */
-    }
-    
-    .popular-badge {
-        position: static;
-        transform: none;
-        margin-bottom: 1rem;
-        display: inline-block;
-    }
-}
-
-@media (max-width: 480px) {
-    .membership-section {
-        padding: 4rem 1rem;
-    }
-    
-    .membership-card {
-        padding: 1.5rem;
-    }
-    
-    .plan-price {
-        flex-direction: column;
-        gap: 0;
-    }
-    
-    .price-amount {
-        font-size: 2.5rem;
-    }
-}
-
-/* Animaciones de entrada suaves */
-.membership-card.fade-up {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.membership-card.fade-up.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Optimización adicional para evitar trabado */
-.membership-card {
-    background: #fff;
-    padding: 2.5rem;
-    border-radius: 20px;
-    text-align: center;
-    position: relative;
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-    border: 2px solid transparent;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-    transform: translateZ(0); /* Fuerza aceleración de hardware */
-    backface-visibility: hidden; /* Previene parpadeos */
-    -webkit-backface-visibility: hidden;
-}
-
-/* Estados base */
-.membership-card.bronze {
-    border-color: #CD7F32;
-}
-
-.membership-card.gold {
-    border-color: var(--primary-color);
-    background: linear-gradient(135deg, #fff 0%, #fefbf3 100%);
-}
-
-/* Badge "Más Popular" */
-.popular-badge {
-    position: absolute;
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%) translateZ(0);
-    background: var(--primary-color);
-    color: #fff;
-    padding: 0.5rem 1.5rem;
-    border-radius: 15px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    box-shadow: 0 4px 15px rgba(199, 139, 66, 0.3);
-}
-
-/* Hover effects uniformes - SIN diferenciación entre bronze y gold */
-.membership-card:hover {
-    transform: translateY(-5px) translateZ(0);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
-}
-
-/* Botones con efecto ripple opcional */
-.plan-cta::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
-}
-
-.plan-cta:active::before {
-    width: 300px;
-    height: 300px;
-}
 
 /* Comparación de membresías */
 .membersia-comparison {
@@ -1114,11 +770,11 @@ body {
 }
 
 .gold-bar .stat-value {
-    color: var(--primary-color);
+    color: var(--primary-colorr);
 }
 
 .gold-bar .bar-label {
-    color: var(--primary-color);
+    color: var(--primary-colorr);
 }
 
 /* Agregar barras visuales */
@@ -1139,7 +795,7 @@ body {
 
 .gold-bar .stat-value::after {
     height: 80px;
-    background: linear-gradient(to top, var(--primary-color), #F5E049);
+    background: linear-gradient(to top, var(--primary-colorr), #F5E049);
 }
 
 .membersia-guarantee {
@@ -1267,7 +923,7 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 1rem;
-    background: var(--primary-color);
+    background: var(--primary-colorr);
     color: var(--secondary-color);
     padding: 1.5rem 3rem;
     border-radius: 50px;
@@ -1321,7 +977,7 @@ body {
     font-family: 'Playfair Display', serif;
     font-size: 2rem;
     font-weight: 700;
-    color: var(--primary-color);
+    color: var(--primary-colorr);
     margin-bottom: 1rem;
     letter-spacing: 2px;
 }
@@ -1354,7 +1010,7 @@ body {
 }
 
 .footer-section a:hover {
-    color: var(--primary-color);
+    color: var(--primary-colorr);
 }
 
 .footer-bottom {
@@ -1376,7 +1032,7 @@ body {
     padding: 0.7rem 1.2rem;
     background: rgba(212, 175, 55, 0.1);
     border-radius: 25px;
-    color: var(--primary-color);
+    color: var(--primary-colorr);
     text-decoration: none;
     font-size: 0.9rem;
     font-weight: 500;
@@ -1384,7 +1040,7 @@ body {
 }
 
 .social-link:hover {
-    background: var(--primary-color);
+    background: var(--primary-colorr);
     color: var(--secondary-color);
     transform: translateY(-3px);
 }
@@ -1412,7 +1068,7 @@ body {
 }
 
 .legal-links a:hover {
-    color: var(--primary-color);
+    color: var(--primary-colorr);
 }
 
 /* Animaciones */
