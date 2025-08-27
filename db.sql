@@ -15,7 +15,7 @@ CREATE TABLE users (
     password_hash VARCHAR(255) NOT NULL,
     first_name VARCHAR(100),
     last_name VARCHAR(100),
-    subscription_type ENUM('bronce', 'gold') DEFAULT 'bronce',
+    subscription_type ENUM('despertar', 'evolucionar') DEFAULT 'despertar',
     subscription_status ENUM('active', 'inactive', 'cancelled', 'pending') DEFAULT 'pending',
     paypal_payment_id VARCHAR(255) NULL,
     temp_password VARCHAR(100) NULL COMMENT 'Password temporal antes del primer login',
@@ -85,4 +85,6 @@ CREATE TABLE user_activity (
     INDEX idx_user_activity (user_id, activity_type),
     INDEX idx_created_at (created_at)
 );
+
+SELECT * FROM users;
 

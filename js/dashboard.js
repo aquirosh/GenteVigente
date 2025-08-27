@@ -23,7 +23,7 @@ function loadUserData() {
         if (window.userData) {
             const userName = window.userData.name || 'Usuario';
             const userEmail = window.userData.email || 'usuario@email.com';
-            const userMembership = window.userData.subscription || 'bronce';
+            const userMembership = window.userData.subscription || 'despertar';
             
             // Generar iniciales de forma segura
             const nameParts = userName.trim().split(' ');
@@ -56,15 +56,15 @@ function loadUserData() {
 
 // Manejar contenido exclusivo
 function handleExclusiveContent(membership) {
-    const goldItems = document.querySelectorAll('.gold-only, .gold-event');
+    const evolucionarItems = document.querySelectorAll('.evolucionar-only, .evolucionar-event');
     
-    goldItems.forEach(item => {
-        if (membership !== 'gold') {
+    evolucionarItems.forEach(item => {
+        if (membership !== 'evolucionar') {
             item.style.opacity = '0.7';
             item.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                showMessage('Este contenido es exclusivo para miembros Gold');
+                showMessage('Este contenido es exclusivo para miembros con el plan Evolucionar');
             });
         }
     });
@@ -120,10 +120,10 @@ function initContentEvents() {
     document.querySelectorAll('#contenidos-section .content-item').forEach(item => {
         item.addEventListener('click', function() {
             const title = this.querySelector('h3').textContent;
-            if (this.classList.contains('gold-only')) {
-                const membership = window.userData ? window.userData.subscription : 'bronce';
-                if (membership !== 'gold') {
-                    showMessage('Contenido exclusivo para miembros Gold');
+            if (this.classList.contains('evolucionar-only')) {
+                const membership = window.userData ? window.userData.subscription : 'despertar';
+                if (membership !== 'evolucionar') {
+                    showMessage('Contenido exclusivo para miembros plan Evolucionar');
                     return;
                 }
             }
@@ -140,10 +140,10 @@ function initContentEvents() {
             const eventItem = this.closest('.event-item');
             const eventTitle = eventItem.querySelector('h3').textContent;
             
-            if (this.classList.contains('gold-btn')) {
+            if (this.classList.contains('evolucionar-btn')) {
                 const membership = window.userData ? window.userData.subscription : 'bronce';
-                if (membership !== 'gold') {
-                    showMessage('Evento exclusivo para miembros Gold');
+                if (membership !== 'evolucionar') {
+                    showMessage('Evento exclusivo para miembros evolucionar');
                     return;
                 }
             }
