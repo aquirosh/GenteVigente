@@ -1,4 +1,5 @@
 <?php
+$config = require_once 'config.php';
 // registro-despertar.php - Plan Despertar con diseño moderno
 require_once 'backend/phpmailer/src/Exception.php';
 require_once 'backend/phpmailer/src/PHPMailer.php';
@@ -6,7 +7,6 @@ require_once 'backend/phpmailer/src/SMTP.php';
 require_once 'backend/db.php';
 
 // CARGAR CONFIGURACIÓN DESDE ARCHIVO EXTERNO
-$config = require_once 'config.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;

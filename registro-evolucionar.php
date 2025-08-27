@@ -1,12 +1,11 @@
 <?php
-// registro-evolucionar.php - Plan Evolucionar refactorizado
+$config = require_once 'config.php';
+
+// registro-evolucionar.php - Plan Evolucionar
 require_once 'backend/phpmailer/src/Exception.php';
 require_once 'backend/phpmailer/src/PHPMailer.php';
 require_once 'backend/phpmailer/src/SMTP.php';
 require_once 'backend/db.php';
-
-// CARGAR CONFIGURACIÓN DESDE ARCHIVO EXTERNO
-$config = require_once 'config.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -14,26 +13,22 @@ use PHPMailer\PHPMailer\Exception;
 class UserRegistration {
     private $pdo;
     private $mail;
-    private $config;
     
-    public function __construct($pdo, $config) {
+    public function __construct($pdo) {
         $this->pdo = $pdo;
-        $this->config = $config;
         $this->initializeMailer();
     }
     
     private function initializeMailer() {
         $this->mail = new PHPMailer(true);
         $this->mail->isSMTP();
-        
-        // USAR CONFIGURACIÓN EN LUGAR DE VALORES HARDCODEADOS
-        $this->mail->Host = $this->config['smtp']['host'];
+        $this->mail->Host = 'smtp.gmail.com';
         $this->mail->SMTPAuth = true;
-        $this->mail->Username = $this->config['smtp']['username'];
-        $this->mail->Password = $this->config['smtp']['password'];
-        $this->mail->SMTPSecure = $this->config['smtp']['security'];
-        $this->mail->Port = $this->config['smtp']['port'];
-        $this->mail->CharSet = $this->config['smtp']['charset'];
+        $this->mail->Username = 'andyquirosh@gmail.com';
+        $this->mail->Password = 'ctjcbipregmxkhty';
+        $this->mail->SMTPSecure = 'ssl';
+        $this->mail->Port = 465;
+        $this->mail->CharSet = 'UTF-8';
     }
     
     public function registerUser($userData) {
@@ -145,13 +140,12 @@ class UserRegistration {
     
     private function sendWelcomeEmail($userData, $temporaryPassword) {
         try {
-            // USAR CONFIGURACIÓN EN LUGAR DE VALORES HARDCODEADOS
-            $this->mail->setFrom($this->config['smtp']['username'], $this->config['app']['name']);
+            $this->mail->setFrom('andyquirosh@gmail.com', 'Gente Vigente');
             $this->mail->addAddress($userData['email'], trim($userData['first_name'] . ' ' . $userData['last_name']));
-            $this->mail->addReplyTo($this->config['app']['support_email'], $this->config['app']['name']);
+            $this->mail->addReplyTo('andyquirosh@gmail.com', 'Gente Vigente');
             
             $this->mail->isHTML(true);
-            $this->mail->Subject = 'Bienvenido al Plan Evolucionar - ' . $this->config['app']['name'];
+            $this->mail->Subject = 'Bienvenido al Plan Evolucionar - Gente Vigente';
             $this->mail->Body = $this->getWelcomeEmailTemplateEvolucionar($userData, $temporaryPassword);
             
             return $this->mail->send();
@@ -162,11 +156,9 @@ class UserRegistration {
         }
     }
     
+    // Aquí iría el template de email que ya creamos anteriormente
     private function getWelcomeEmailTemplateEvolucionar($userData, $temporaryPassword) {
-        // USAR CONFIGURACIÓN PARA URL Y EMAIL DE SOPORTE
-        $loginUrl = $this->config['app']['login_url'];
-        $supportEmail = $this->config['app']['support_email'];
-        $appName = $this->config['app']['name'];
+        $loginUrl = 'http://localhost/login.php'; // Cambiar por tu URL real
         
         return "
         <!DOCTYPE html>
@@ -174,7 +166,7 @@ class UserRegistration {
         <head>
             <meta charset='UTF-8'>
             <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-            <title>Bienvenido a {$appName} - Plan Evolucionar</title>
+            <title>Bienvenido a Gente Vigente - Plan Evolucionar</title>
         </head>
         <body style='margin: 0; padding: 0; background-color: #f8f9fa; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif;'>
             
@@ -183,7 +175,7 @@ class UserRegistration {
                 <!-- Header compacto -->
                 <div style='background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%); padding: 24px 32px; border-bottom: 3px solid #c78b42;'>
                     <div style='text-align: center;'>
-                        <h1 style='color: #c78b42; font-size: 24px; font-weight: 600; margin: 0 0 4px; letter-spacing: 1px;'>{$appName}</h1>
+                        <h1 style='color: #c78b42; font-size: 24px; font-weight: 600; margin: 0 0 4px; letter-spacing: 1px;'>GENTE VIGENTE</h1>
                         <div style='color: #999; font-size: 13px; font-style: italic; margin: 0;'>Crea, Trasciende, Lidera</div>
                     </div>
                 </div>
@@ -192,13 +184,18 @@ class UserRegistration {
                 <div style='padding: 32px;'>
                     
                     <!-- Saludo -->
+
                     <div style='margin-bottom: 32px;'>
                         <div style='text-align: center; margin-bottom: 20px;'>
                             <span style='background: #c78b42; color: white; padding: 8px 20px; border-radius: 25px; font-size: 13px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase;'>PLAN EVOLUCIONAR</span>
                         </div>
+
                         <h2 style='color: #1a1a1a; font-size: 24px; font-weight: 600; margin: 0 0 12px; text-align: center;'>¡Bienvenido, {$userData['first_name']}!</h2>
                         <p style='color: #666; font-size: 16px; line-height: 1.5; margin: 0; text-align: center;'>Tu cuenta Plan Evolucionar está lista. Comienza tu transformación profesional ahora.</p>
                     </div>
+                    
+
+
                     
                     <!-- Credenciales -->
                     <div style='background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 24px; margin: 24px 0;'>
@@ -210,9 +207,9 @@ class UserRegistration {
                         </div>
                         
                         <div style='margin: 16px 0;'>
-                            <div style='color: #666; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;'>Contraseña temporal</div>
-                            <div style='background: linear-gradient(135deg, #c78b42 0%, #d4a94c 50%, #e6b555 100%); color: white; padding: 18px; border-radius: 8px; font-family: \"SF Mono\", Monaco, Consolas, monospace; font-size: 18px; font-weight: bold; text-align: center; letter-spacing: 2px; box-shadow: 0 4px 20px rgba(199, 139, 66, 0.4); border: 2px solid rgba(255, 255, 255, 0.3); text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);'>{$temporaryPassword}</div>
-                        </div>
+                        <div style='color: #666; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;'>Contraseña temporal</div>
+                        <div style='background: linear-gradient(135deg, #c78b42 0%, #d4a94c 50%, #e6b555 100%); color: white; padding: 18px; border-radius: 8px; font-family: \"SF Mono\", Monaco, Consolas, monospace; font-size: 18px; font-weight: bold; text-align: center; letter-spacing: 2px; box-shadow: 0 4px 20px rgba(199, 139, 66, 0.4); border: 2px solid rgba(255, 255, 255, 0.3); text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);'>{$temporaryPassword}</div>
+                    </div>
 
                         <div style='background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 6px; padding: 12px; margin-top: 16px;'>
                             <div style='color: #856404; font-size: 13px; line-height: 1.4; margin: 0;'><strong>Importante:</strong> Esta contraseña es temporal y deberás cambiarla en tu primer acceso.</div>
@@ -259,7 +256,7 @@ class UserRegistration {
                             </div>
                             <div style='display: flex; justify-content: space-between;'>
                                 <span style='color: #475569;'>Precio:</span>
-                                <span style='color: #c78b42; font-weight: 600;'>$35 USD/mes</span>
+                                <span style='color: #c78b42; font-weight: 600;'>$125 USD/mes</span>
                             </div>
                         </div>
                     </div>
@@ -280,16 +277,15 @@ class UserRegistration {
                 <!-- Footer minimalista -->
                 <div style='background: #f8f9fa; padding: 20px 32px; border-top: 1px solid #e9ecef; text-align: center;'>
                     <p style='color: #666; font-size: 13px; margin: 0 0 8px;'>
-                        ¿Necesitas ayuda? <a href='mailto:{$supportEmail}' style='color: #c78b42; text-decoration: none;'>{$supportEmail}</a>
+                        ¿Necesitas ayuda? <a href='mailto:andyquirosh@gmail.com' style='color: #c78b42; text-decoration: none;'>andyquirosh@gmail.com</a>
                     </p>
-                    <p style='color: #999; font-size: 12px; margin: 0;'>© " . date('Y') . " {$appName}. Todos los derechos reservados.</p>
+                    <p style='color: #999; font-size: 12px; margin: 0;'>© " . date('Y') . " Gente Vigente. Todos los derechos reservados.</p>
                 </div>
                 
             </div>
         </body>
         </html>";
     }
-    
     private function deleteUser($userId) {
         try {
             $stmt = $this->pdo->prepare("DELETE FROM users WHERE id = ?");
@@ -313,8 +309,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_user'])) {
         'last_name' => trim($_POST['last_name'] ?? '')
     ];
     
-    // PASAR CONFIGURACIÓN AL CONSTRUCTOR
-    $registration = new UserRegistration($pdo, $config);
+    $registration = new UserRegistration($pdo);
     $result = $registration->registerUser($userData);
     
     $message = $result['message'];
@@ -326,7 +321,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_user'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plan Evolucionar - <?php echo $config['app']['name']; ?></title>
+    <title>Plan Evolucionar - Gente Vigente</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -630,6 +625,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_user'])) {
         
         .back-link a:hover { 
             color: #a6722e;
+        }
+        
+        .premium-highlight {
+            background: linear-gradient(135deg, rgba(199, 139, 66, 0.1), rgba(212, 169, 76, 0.08));
+            border: 1px solid rgba(199, 139, 66, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+        
+        .premium-highlight::before {
+            content: '👑';
+            position: absolute;
+            top: -8px;
+            right: 10px;
+            background: white;
+            padding: 0 5px;
+            font-size: 0.9rem;
+        }
+        
+        .premium-highlight h5 {
+            color: #c78b42;
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .premium-features {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .premium-features li {
+            margin: 0.4rem 0;
+            position: relative;
+            padding-left: 20px;
+            color: #555;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+        
+        .premium-features li::before {
+            content: '⚡';
+            position: absolute;
+            left: 0;
+            color: #c78b42;
+            font-size: 0.9rem;
         }
         
         @media (max-width: 768px) {

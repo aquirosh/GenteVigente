@@ -33,7 +33,21 @@
     transition: box-shadow 0.2s ease, transform 0.2s ease;
     border: 2px solid transparent;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-    transform: translateZ(0); /* Fuerza aceleración de hardware */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    
+    /* Flexbox para distribución del contenido */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 600px; /* Altura mínima para mantener consistencia */
+}
+
+.membership-card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Estados base */
@@ -167,6 +181,10 @@
     list-style: none;
     margin-bottom: 2rem;
     text-align: left;
+    flex: 1; /* Ocupa el espacio disponible */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .plan-features li {
@@ -216,6 +234,7 @@
     font-size: 1rem;
     position: relative;
     overflow: hidden;
+    margin-top: auto; /* Empuja el botón hacia abajo */
 }
 
 .despertar-cta {
@@ -250,7 +269,8 @@
     }
     
     .membership-card {
-        padding: 2rem;
+        min-height: auto;
+        height: auto;
     }
     
     /* evolucionar card pierde featured style en móvil */
