@@ -31,8 +31,8 @@ return [
         'password' => [
             'min_length' => 6, // Más corto para desarrollo
             'require_special' => false, // Opcional en desarrollo
-            'require_numbers' => false,
-            'require_uppercase' => false,
+            'require_numbers' => true,
+            'require_uppercase' => true,
             'require_lowercase' => true,
             'max_age_days' => 365, // Un año en desarrollo
             'history_count' => 3

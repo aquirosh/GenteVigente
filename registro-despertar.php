@@ -6,7 +6,6 @@ require_once 'backend/phpmailer/src/PHPMailer.php';
 require_once 'backend/phpmailer/src/SMTP.php';
 require_once 'backend/db.php';
 
-// CARGAR CONFIGURACIÓN DESDE ARCHIVO EXTERNO
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;

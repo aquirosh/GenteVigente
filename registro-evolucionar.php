@@ -13,22 +13,26 @@ use PHPMailer\PHPMailer\Exception;
 class UserRegistration {
     private $pdo;
     private $mail;
+    private $config;
     
-    public function __construct($pdo) {
+    public function __construct($pdo, $config) {
         $this->pdo = $pdo;
+        $this->config = $config;
         $this->initializeMailer();
     }
     
     private function initializeMailer() {
         $this->mail = new PHPMailer(true);
         $this->mail->isSMTP();
-        $this->mail->Host = 'smtp.gmail.com';
+        
+        // USAR CONFIGURACIÓN EN LUGAR DE VALORES HARDCODEADOS
+        $this->mail->Host = $this->config['smtp']['host'];
         $this->mail->SMTPAuth = true;
-        $this->mail->Username = 'andyquirosh@gmail.com';
-        $this->mail->Password = 'ctjcbipregmxkhty';
-        $this->mail->SMTPSecure = 'ssl';
-        $this->mail->Port = 465;
-        $this->mail->CharSet = 'UTF-8';
+        $this->mail->Username = $this->config['smtp']['username'];
+        $this->mail->Password = $this->config['smtp']['password'];
+        $this->mail->SMTPSecure = $this->config['smtp']['security'];
+        $this->mail->Port = $this->config['smtp']['port'];
+        $this->mail->CharSet = $this->config['smtp']['charset'];
     }
     
     public function registerUser($userData) {
@@ -309,7 +313,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_user'])) {
         'last_name' => trim($_POST['last_name'] ?? '')
     ];
     
-    $registration = new UserRegistration($pdo);
+    $registration = new UserRegistration($pdo, $config);
     $result = $registration->registerUser($userData);
     
     $message = $result['message'];
