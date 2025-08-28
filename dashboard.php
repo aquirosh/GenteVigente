@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Gente Vigente</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=visibility,visibility_off" rel="stylesheet">
     <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
@@ -36,11 +37,24 @@
     <header class="topbar">
         <div class="user-info">
             <div class="user-avatar">
-                <span id="userInitials"><?php echo isset($_SESSION['user_name']) ? strtoupper(substr($_SESSION['user_name'], 0, 1)) : 'U'; ?></span>
+                <span id="userInitials">
+                    <?php 
+                    $fullName = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'Usuario';
+                    if ($fullName && $fullName !== 'Usuario') {
+                        $nameParts = explode(' ', trim($fullName));
+                        echo strtoupper(substr($nameParts[0], 0, 1));
+                        if (count($nameParts) > 1) {
+                            echo strtoupper(substr($nameParts[count($nameParts)-1], 0, 1));
+                        }
+                    } else {
+                        echo 'U';
+                    }
+                    ?>
+                </span>
             </div>
             <div class="user-details">
-                <span class="user-name" id="userName"><?php echo isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_name']) : 'Usuario'; ?></span>
-                <span class="user-email" id="userEmail"><?php echo isset($_SESSION['user_email']) ? htmlspecialchars($_SESSION['user_email']) : 'email@ejemplo.com'; ?></span>
+                <span class="user-name" id="userName"><?php echo htmlspecialchars(isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'Usuario'); ?></span>
+                <span class="user-email" id="userEmail"><?php echo htmlspecialchars(isset($_SESSION['user_email']) ? $_SESSION['user_email'] : 'email@ejemplo.com'); ?></span>
             </div>
             <span class="dropdown-arrow">▼</span>
         </div>
@@ -57,66 +71,187 @@
                     <img src="img/GenteVigente.png" alt="Gente Vigente" class="brand-image">
                 </div>
                 <div class="welcome-content">
-                    <h2>Bienvenido al menu exclusivo de GV</h2>
+                    <h2>Bienvenido al menú exclusivo de GV</h2>
                     <p>
-                        <?php if (isset($_SESSION['user_name']) && isset($_SESSION['subscription_type'])): ?>
-                            Hola <?php echo htmlspecialchars($_SESSION['user_name']); ?>! Tu plan <?php echo ucfirst($_SESSION['subscription_type']); ?> está activo.
+                        <?php if (isset($_SESSION['user_first_name']) && !empty($_SESSION['user_first_name'])): ?>
+                            Hola <?php echo htmlspecialchars($_SESSION['user_first_name']); ?>! Tu plan <?php echo ucfirst(isset($_SESSION['subscription_type']) ? $_SESSION['subscription_type'] : 'despertar'); ?> está activo.
                         <?php else: ?>
                             Bienvenido a tu panel de control.
                         <?php endif; ?>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        Continúa tu camino hacia el liderazgo personal y la excelencia. 
+                        Explora el contenido exclusivo disponible para tu membresía.
                     </p>
                 </div>
             </div>
         </section>
 
-        <!-- Perfil Section -->
+        <!-- Perfil Section - AQUÍ VA EL HTML DEL PERFIL -->
         <section id="perfil-section" class="content-section">
             <h1 class="page-title">Mi Perfil</h1>
             
-            <div class="profile-info-card">
-                <div class="profile-section">
-                    <h3>Información Personal</h3>
-                    <div class="info-item">
-                        <label>Nombre:</label>
-                        <span id="profileNameDisplay"><?php echo isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_name']) : 'Usuario'; ?></span>
+            <!-- Card Principal de Perfil -->
+            <div class="profile-edit-card">
+                <div class="profile-header">
+                    <div class="profile-avatar-large">
+                        <span id="profileAvatarLarge">U</span>
                     </div>
-                    <div class="info-item">
-                        <label>Email:</label>
-                        <span id="profileEmailDisplay"><?php echo isset($_SESSION['user_email']) ? htmlspecialchars($_SESSION['user_email']) : 'email@ejemplo.com'; ?></span>
+                    <div class="profile-basic-info">
+                        <h2 id="profileDisplayName">Usuario</h2>
+                        <p class="profile-email" id="profileDisplayEmail">email@ejemplo.com</p>
+                        <span class="membership-badge" id="profileMembershipBadge">DESPERTAR</span>
                     </div>
-                    <div class="info-item">
-                        <label>Membresía:</label>
-                        <span id="profileMembership" class="membership-badge <?php echo isset($_SESSION['subscription_type']) ? $_SESSION['subscription_type'] : 'despertar'; ?>">
-                            <?php echo isset($_SESSION['subscription_type']) ? ucfirst($_SESSION['subscription_type']) : 'despertar'; ?>
-                        </span>
+                </div>
+
+                <!-- Formulario de Edición -->
+                <form id="profileEditForm" class="profile-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">Nombre:</label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Apellido:</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <label>Miembro desde:</label>
-                        <span><?php echo date('F Y'); ?></span>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Teléfono:</label>
+                            <input type="tel" id="phone" name="phone" placeholder="Opcional">
+                        </div>
                     </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="country">País:</label>
+                            <select id="country" name="country">
+                                <option value="">Seleccionar país</option>
+                                <option value="CR">Costa Rica</option>
+                                <option value="MX">México</option>
+                                <option value="US">Estados Unidos</option>
+                                <option value="ES">España</option>
+                                <option value="AR">Argentina</option>
+                                <option value="CO">Colombia</option>
+                                <option value="PE">Perú</option>
+                                <option value="CL">Chile</option>
+                                <option value="OTHER">Otro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="birthDate">Fecha de Nacimiento:</label>
+                            <input type="date" id="birthDate" name="birthDate">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="resetForm()">Cancelar</button>
+                        <button type="submit" class="btn-primary">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Card de Seguridad -->
+            <div class="security-card">
+                <h3>Seguridad de la Cuenta</h3>
+                <div class="security-item">
+                    <div class="security-info">
+                        <h4>Cambiar Contraseña</h4>
+                        <p>Mantén tu cuenta segura actualizando tu contraseña regularmente</p>
+                    </div>
+                    <button class="btn-outline" onclick="openPasswordModal()">Cambiar Contraseña</button>
                 </div>
             </div>
         </section>
     </main>
 
+    <!-- Modal para Cambiar Contraseña -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Cambiar Contraseña</h3>
+                <button class="modal-close" onclick="closePasswordModal()">&times;</button>
+            </div>
+            <form id="passwordForm" class="modal-body">
+                <div class="form-group">
+                    <label for="currentPassword">Contraseña Actual:</label>
+                    <div class="password-input-container">
+                        <input type="password" id="currentPassword" name="currentPassword" required>
+                        <button type="button" class="password-toggle" onclick="togglePasswordVisibility('currentPassword')">
+                            <span class="material-symbols-outlined">visibility_off</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Nueva Contraseña:</label>
+                    <div class="password-input-container">
+                        <input type="password" id="newPassword" name="newPassword" required minlength="8">
+                        <button type="button" class="password-toggle" onclick="togglePasswordVisibility('newPassword')">
+                            <span class="material-symbols-outlined">visibility_off</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmar Nueva Contraseña:</label>
+                    <div class="password-input-container">
+                        <input type="password" id="confirmPassword" name="confirmPassword" required minlength="8">
+                        <button type="button" class="password-toggle" onclick="togglePasswordVisibility('confirmPassword')">
+                            <span class="material-symbols-outlined">visibility_off</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="password-requirements">
+                    <small>La contraseña debe tener al menos 8 caracteres e incluir mayúsculas, minúsculas y números.</small>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closePasswordModal()">Cancelar</button>
+                <button type="button" class="btn-primary" onclick="savePassword()">Cambiar Contraseña</button>
+            </div>
+        </div>
+    </div>
+
     <script src="js/dashboard.js"></script>
     
     <!-- Script para manejar datos de PHP en JavaScript -->
     <script>
-        // Pasar datos de PHP a JavaScript de forma segura
+        // Pasar datos completos de PHP a JavaScript de forma segura
         window.userData = {
-            name: '<?php echo isset($_SESSION['user_name']) ? addslashes($_SESSION['user_name']) : 'Usuario'; ?>',
-            email: '<?php echo isset($_SESSION['user_email']) ? addslashes($_SESSION['user_email']) : 'email@ejemplo.com'; ?>',
-            subscription: '<?php echo isset($_SESSION['subscription_type']) ? addslashes($_SESSION['subscription_type']) : 'despertar'; ?>'
+            name: '<?php echo addslashes(isset($_SESSION['user_name']) ? $_SESSION['user_name'] : ''); ?>',
+            firstName: '<?php echo addslashes(isset($_SESSION['user_first_name']) ? $_SESSION['user_first_name'] : ''); ?>',
+            lastName: '<?php echo addslashes(isset($_SESSION['user_last_name']) ? $_SESSION['user_last_name'] : ''); ?>',
+            email: '<?php echo addslashes(isset($_SESSION['user_email']) ? $_SESSION['user_email'] : ''); ?>',
+            phone: '<?php echo addslashes(isset($_SESSION['user_phone']) ? $_SESSION['user_phone'] : ''); ?>',
+            country: '<?php echo addslashes(isset($_SESSION['user_country']) ? $_SESSION['user_country'] : ''); ?>',
+            subscription: '<?php echo addslashes(isset($_SESSION['subscription_type']) ? $_SESSION['subscription_type'] : 'despertar'); ?>',
+            memberSince: '<?php echo isset($_SESSION['member_since']) ? date('F Y', strtotime($_SESSION['member_since'])) : date('F Y'); ?>'
         };
+        
+        // Debug para ver los datos
+        console.log('Datos del usuario cargados:', window.userData);
         
         // Función de logout
         function logout() {
             if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
                 window.location.href = 'backend/logout.php';
+            }
+        }
+
+        // Función para toggle de visibilidad de contraseñas
+        function togglePasswordVisibility(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.parentNode.querySelector('.password-toggle .material-symbols-outlined');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = 'visibility';
+            } else {
+                input.type = 'password';
+                icon.textContent = 'visibility_off';
             }
         }
     </script>

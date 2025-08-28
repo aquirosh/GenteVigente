@@ -1,8 +1,9 @@
-// dashboard.js - JavaScript actualizado para trabajar con sesiones PHP
+// dashboard.js - JavaScript completo con funcionalidad de perfil integrada
 
 // Variables globales
 let currentSection = 'dashboard';
 let isInitialized = false;
+let currentUserData = {}; // Para datos del perfil
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', function() {
@@ -12,6 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
     loadUserData();
     initNavigation();
     initMobileMenu();
+    initializeProfile();
+    setupFormValidation();
     isInitialized = true;
     console.log('Dashboard Gente Vigente cargado');
 });
@@ -141,14 +144,14 @@ function initContentEvents() {
             const eventTitle = eventItem.querySelector('h3').textContent;
             
             if (this.classList.contains('evolucionar-btn')) {
-                const membership = window.userData ? window.userData.subscription : 'bronce';
+                const membership = window.userData ? window.userData.subscription : 'despertar';
                 if (membership !== 'evolucionar') {
                     showMessage('Evento exclusivo para miembros evolucionar');
                     return;
                 }
             }
             
-            showMessage(`Registrado en: ${title}`);
+            showMessage(`Registrado en: ${eventTitle}`);
         });
     });
     
@@ -159,6 +162,342 @@ function initContentEvents() {
             showMessage(`Accediendo a: ${title}`);
         });
     });
+}
+
+// =======================================
+// FUNCIONES DEL PERFIL
+// =======================================
+
+function initializeProfile() {
+    // Cargar datos desde window.userData (viene de PHP)
+    if (window.userData) {
+        currentUserData = {
+            firstName: window.userData.firstName || '',
+            lastName: window.userData.lastName || '',
+            email: window.userData.email || '',
+            phone: window.userData.phone || '',
+            country: window.userData.country || '',
+            birthDate: window.userData.birthDate || '',
+            subscription: window.userData.subscription || 'despertar'
+        };
+    } else {
+        // Datos por defecto si no hay window.userData
+        currentUserData = {
+            firstName: '',
+            lastName: '',
+            email: '',
+            phone: '',
+            country: '',
+            birthDate: '',
+            subscription: 'despertar'
+        };
+    }
+    
+    // Actualizar la interfaz si estamos en la sección de perfil
+    setTimeout(() => {
+        updateProfileDisplay();
+        populateForm();
+    }, 100);
+}
+
+function updateProfileDisplay() {
+    const fullName = `${currentUserData.firstName} ${currentUserData.lastName}`.trim();
+    const initials = getInitials(currentUserData.firstName, currentUserData.lastName);
+    
+    // Actualizar elementos de visualización del perfil
+    const profileDisplayName = document.getElementById('profileDisplayName');
+    const profileDisplayEmail = document.getElementById('profileDisplayEmail');
+    const profileAvatarLarge = document.getElementById('profileAvatarLarge');
+    const profileMembershipBadge = document.getElementById('profileMembershipBadge');
+    
+    if (profileDisplayName) profileDisplayName.textContent = fullName || 'Usuario';
+    if (profileDisplayEmail) profileDisplayEmail.textContent = currentUserData.email || 'email@ejemplo.com';
+    if (profileAvatarLarge) profileAvatarLarge.textContent = initials;
+    
+    // Actualizar badge de membresía con colores correctos según la nueva paleta
+    if (profileMembershipBadge) {
+        const subscription = currentUserData.subscription.toLowerCase();
+        profileMembershipBadge.textContent = subscription.toUpperCase();
+        profileMembershipBadge.className = `membership-badge ${subscription}`;
+    }
+    
+    // Actualizar también el topbar
+    const userName = document.getElementById('userName');
+    const userEmail = document.getElementById('userEmail');
+    const userInitials = document.getElementById('userInitials');
+    
+    if (userName) userName.textContent = fullName || 'Usuario';
+    if (userEmail) userEmail.textContent = currentUserData.email;
+    if (userInitials) userInitials.textContent = initials;
+}
+
+function getInitials(firstName, lastName) {
+    const first = (firstName || '').charAt(0).toUpperCase();
+    const last = (lastName || '').charAt(0).toUpperCase();
+    return (first + last) || 'U';
+}
+
+function populateForm() {
+    // Llenar el formulario con datos actuales si existen los elementos
+    const firstNameInput = document.getElementById('firstName');
+    const lastNameInput = document.getElementById('lastName');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+    const countryInput = document.getElementById('country');
+    const birthDateInput = document.getElementById('birthDate');
+    
+    if (firstNameInput) firstNameInput.value = currentUserData.firstName || '';
+    if (lastNameInput) lastNameInput.value = currentUserData.lastName || '';
+    if (emailInput) emailInput.value = currentUserData.email || '';
+    if (phoneInput) phoneInput.value = currentUserData.phone || '';
+    if (countryInput) countryInput.value = currentUserData.country || '';
+    if (birthDateInput) birthDateInput.value = currentUserData.birthDate || '';
+}
+
+function resetForm() {
+    populateForm(); // Restaurar valores originales
+    showNotification('Cambios cancelados', 'info');
+}
+
+// Configurar validación del formulario de perfil
+function setupFormValidation() {
+    const profileForm = document.getElementById('profileEditForm');
+    if (profileForm) {
+        profileForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Obtener valores del formulario
+            const formData = {
+                firstName: document.getElementById('firstName').value.trim(),
+                lastName: document.getElementById('lastName').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                country: document.getElementById('country').value,
+                birthDate: document.getElementById('birthDate').value
+            };
+            
+            // Validar campos requeridos
+            if (!formData.firstName || !formData.lastName || !formData.email) {
+                showNotification('Por favor completa todos los campos requeridos', 'error');
+                return;
+            }
+            
+            // Validar email
+            if (!isValidEmail(formData.email)) {
+                showNotification('Por favor ingresa un email válido', 'error');
+                return;
+            }
+            
+            // Guardar perfil con llamada AJAX real
+            saveProfile(formData);
+        });
+    }
+    
+    // Configurar validación de contraseñas
+    const newPasswordInput = document.getElementById('newPassword');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    
+    if (newPasswordInput && confirmPasswordInput) {
+        function validatePasswords() {
+            const newPassword = newPasswordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            
+            if (newPassword && confirmPassword) {
+                if (newPassword === confirmPassword) {
+                    confirmPasswordInput.style.borderColor = '#22c55e';
+                } else {
+                    confirmPasswordInput.style.borderColor = '#ef4444';
+                }
+            } else {
+                confirmPasswordInput.style.borderColor = 'var(--border-color)';
+            }
+        }
+        
+        newPasswordInput.addEventListener('input', validatePasswords);
+        confirmPasswordInput.addEventListener('input', validatePasswords);
+    }
+}
+
+function saveProfile(formData) {
+    // Mostrar loading
+    const submitBtn = document.querySelector('#profileEditForm .btn-primary');
+    if (submitBtn) {
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Guardando...';
+        submitBtn.disabled = true;
+        
+        // Llamada AJAX al servidor
+        fetch('backend/update-profile.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Restaurar botón
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+            
+            if (data.success) {
+                // Actualizar datos locales con la respuesta del servidor
+                currentUserData = { ...currentUserData, ...data.data };
+                
+                // Actualizar interfaz
+                updateProfileDisplay();
+                
+                // Mostrar éxito
+                showNotification('Perfil actualizado correctamente', 'success');
+            } else {
+                // Mostrar error del servidor
+                showNotification(data.message || 'Error al actualizar perfil', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            
+            // Restaurar botón
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+            
+            showNotification('Error de conexión. Inténtalo de nuevo.', 'error');
+        });
+    }
+}
+
+// Modal de contraseña
+function openPasswordModal() {
+    const modal = document.getElementById('passwordModal');
+    if (modal) {
+        modal.style.display = 'block';
+    }
+}
+
+function closePasswordModal() {
+    const modal = document.getElementById('passwordModal');
+    if (modal) {
+        modal.style.display = 'none';
+        const form = document.getElementById('passwordForm');
+        if (form) form.reset();
+    }
+}
+
+function savePassword() {
+    const current = document.getElementById('currentPassword').value;
+    const newPass = document.getElementById('newPassword').value;
+    const confirm = document.getElementById('confirmPassword').value;
+    
+    if (!current || !newPass || !confirm) {
+        showNotification('Por favor completa todos los campos', 'error');
+        return;
+    }
+    
+    if (newPass !== confirm) {
+        showNotification('Las contraseñas no coinciden', 'error');
+        return;
+    }
+    
+    if (newPass.length < 8) {
+        showNotification('La contraseña debe tener al menos 8 caracteres', 'error');
+        return;
+    }
+    
+    // Mostrar loading en el botón
+    const saveBtn = document.querySelector('#passwordModal .btn-primary');
+    if (saveBtn) {
+        const originalText = saveBtn.textContent;
+        saveBtn.textContent = 'Cambiando...';
+        saveBtn.disabled = true;
+        
+        // Llamada AJAX real para cambiar contraseña
+        fetch('backend/change-password.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                currentPassword: current,
+                newPassword: newPass,
+                confirmPassword: confirm
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Restaurar botón
+            saveBtn.textContent = originalText;
+            saveBtn.disabled = false;
+            
+            if (data.success) {
+                closePasswordModal();
+                showNotification('Contraseña actualizada correctamente', 'success');
+            } else {
+                showNotification(data.message || 'Error al cambiar contraseña', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            
+            // Restaurar botón
+            saveBtn.textContent = originalText;
+            saveBtn.disabled = false;
+            
+            showNotification('Error de conexión. Inténtalo de nuevo.', 'error');
+        });
+    }
+}
+
+// =======================================
+// FUNCIONES UTILITARIAS
+// =======================================
+
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.textContent = message;
+    
+    // Estilos
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        z-index: 10001;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        max-width: 300px;
+        font-weight: 500;
+    `;
+    
+    // Colores
+    switch(type) {
+        case 'success':
+            notification.style.background = '#22c55e';
+            notification.style.color = 'white';
+            break;
+        case 'error':
+            notification.style.background = '#ef4444';
+            notification.style.color = 'white';
+            break;
+        default:
+            notification.style.background = 'var(--primary-color)';
+            notification.style.color = 'white';
+    }
+    
+    document.body.appendChild(notification);
+    
+    // Animaciones
+    setTimeout(() => notification.style.transform = 'translateX(0)', 100);
+    setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
 }
 
 // Menú móvil
@@ -221,42 +560,9 @@ function createMobileToggle() {
     });
 }
 
-// Mostrar mensajes
+// Mostrar mensajes (método original para compatibilidad)
 function showMessage(message) {
-    // Crear notificación simple
-    const notification = document.createElement('div');
-    notification.textContent = message;
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: var(--primary-color, #c78b42);
-        color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 8px;
-        z-index: 10000;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-        max-width: 300px;
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // Mostrar
-    setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-    }, 100);
-    
-    // Ocultar automáticamente
-    setTimeout(() => {
-        notification.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.remove();
-            }
-        }, 300);
-    }, 3000);
+    showNotification(message, 'info');
 }
 
 // Función de logout - Ahora usa el logout PHP
@@ -278,6 +584,16 @@ function logout() {
         }
     }
 }
+
+// Cerrar modales al hacer clic fuera
+window.addEventListener('click', function(event) {
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(modal => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+});
 
 // Manejo de errores
 window.addEventListener('error', function(e) {
@@ -339,4 +655,28 @@ function checkSessionStatus() {
 // Verificar sesión cada 10 minutos (opcional)
 setInterval(checkSessionStatus, 600000);
 
-console.log('Dashboard actualizado para sesiones PHP');
+console.log('Dashboard completo con funcionalidad de perfil cargado');
+
+// Hacer funciones globales disponibles para llamadas desde HTML
+window.navigateTo = navigateTo;
+window.openPasswordModal = openPasswordModal;
+window.closePasswordModal = closePasswordModal;
+window.savePassword = savePassword;
+window.resetForm = resetForm;
+window.logout = logout;
+window.togglePasswordVisibility = togglePasswordVisibility;
+
+// Función para toggle de visibilidad de contraseñas
+function togglePasswordVisibility(inputId) {
+    const input = document.getElementById(inputId);
+    const button = input.parentNode.querySelector('.password-toggle');
+    const icon = button.querySelector('.material-symbols-outlined');
+    
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.textContent = 'visibility';
+    } else {
+        input.type = 'password';
+        icon.textContent = 'visibility_off';
+    }
+}

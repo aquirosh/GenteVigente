@@ -1,5 +1,5 @@
 <?php
-// dashboard-session.php - Verificar sesión antes de mostrar dashboard
+// dashboard-session.php - Verificar sesión antes de mostrar dashboard - VERSIÓN CORREGIDA
 session_start();
 
 // Debug para desarrollo
@@ -20,7 +20,12 @@ if (!isset($_SESSION['user_id'])) {
 require 'backend/db.php';
 
 try {
-    $stmt = $pdo->prepare("SELECT id, email, first_name, last_name, subscription_type, subscription_status FROM users WHERE id = ?");
+    $stmt = $pdo->prepare("
+        SELECT id, email, first_name, last_name, subscription_type, subscription_status, 
+               phone, country, created_at
+        FROM users 
+        WHERE id = ?
+    ");
     $stmt->execute([$_SESSION['user_id']]);
     $user = $stmt->fetch();
     
@@ -34,16 +39,15 @@ try {
         exit;
     }
     
-    // Actualizar variables de sesión con datos frescos (solo si no existen o están vacías)
-    if (!isset($_SESSION['user_email']) || empty($_SESSION['user_email'])) {
-        $_SESSION['user_email'] = $user['email'];
-    }
-    if (!isset($_SESSION['user_name']) || empty($_SESSION['user_name'])) {
-        $_SESSION['user_name'] = trim($user['first_name'] . ' ' . $user['last_name']) ?: $user['email'];
-    }
-    if (!isset($_SESSION['subscription_type']) || empty($_SESSION['subscription_type'])) {
-        $_SESSION['subscription_type'] = $user['subscription_type'];
-    }
+    // Actualizar variables de sesión con datos frescos
+    $_SESSION['user_email'] = $user['email'];
+    $_SESSION['user_first_name'] = $user['first_name'] ?: '';
+    $_SESSION['user_last_name'] = $user['last_name'] ?: '';
+    $_SESSION['user_name'] = trim($user['first_name'] . ' ' . $user['last_name']) ?: $user['email'];
+    $_SESSION['subscription_type'] = $user['subscription_type'];
+    $_SESSION['user_phone'] = $user['phone'] ?: '';
+    $_SESSION['user_country'] = $user['country'] ?: '';
+    $_SESSION['member_since'] = $user['created_at'];
     
     if ($isDebug) {
         echo "<div style='background: green; color: white; padding: 10px; margin: 10px;'>";

@@ -1,290 +1,223 @@
 <?php
-// change-password.php - Para cambiar contraseña desde el perfil
+// backend/change-password.php - VERSIÓN COMPLETA Y CORREGIDA
 session_start();
 
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Headers: Content-Type');
+
+// Verificar autenticación
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
+    http_response_code(401);
+    echo json_encode(['success' => false, 'message' => 'No autorizado']);
     exit;
 }
 
 require 'db.php';
 
-$error = '';
-$success = '';
+// Configuración de seguridad por defecto
+$security = [
+    'password' => [
+        'min_length' => 8,
+        'require_uppercase' => true,
+        'require_lowercase' => true,
+        'require_numbers' => true,
+        'require_special' => false
+    ],
+    'logging' => [
+        'enable' => true,
+        'log_file' => 'logs/security.log'
+    ]
+];
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $currentPassword = $_POST['current_password'] ?? '';
-    $newPassword = $_POST['new_password'] ?? '';
-    $confirmPassword = $_POST['confirm_password'] ?? '';
-    
-    if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
-        $error = 'Todos los campos son requeridos';
-    } elseif (strlen($newPassword) < 8) {
-        $error = 'La nueva contraseña debe tener al menos 8 caracteres';
-    } elseif ($newPassword !== $confirmPassword) {
-        $error = 'La nueva contraseña y la confirmación no coinciden';
-    } else {
-        try {
-            // Verificar contraseña actual
-            $stmt = $pdo->prepare("SELECT password_hash FROM users WHERE id = ?");
-            $stmt->execute([$_SESSION['user_id']]);
-            $user = $stmt->fetch();
-            
-            if (!$user || !password_verify($currentPassword, $user['password_hash'])) {
-                $error = 'La contraseña actual es incorrecta';
-            } else {
-                // Actualizar contraseña
-                $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
-                
-                $stmt = $pdo->prepare("UPDATE users SET password_hash = ?, updated_at = NOW() WHERE id = ?");
-                $stmt->execute([$hashedPassword, $_SESSION['user_id']]);
-                
-                // Log de actividad
-                if (function_exists('logActivity')) {
-                    logActivity($pdo, $_SESSION['user_id'], 'password_change', 'Contraseña cambiada desde perfil');
-                }
-                
-                $success = '¡Contraseña actualizada exitosamente!';
-            }
-            
-        } catch (PDOException $e) {
-            error_log("Error cambiando contraseña: " . $e->getMessage());
-            $error = 'Error del servidor. Intenta de nuevo.';
+// Intentar cargar configuración personalizada si existe
+if (file_exists('../config/security.php')) {
+    try {
+        $securityConfig = require_once '../config/security.php';
+        if (isset($securityConfig['security'])) {
+            $security = $securityConfig['security'];
         }
+    } catch (Exception $e) {
+        error_log("Error cargando config de seguridad: " . $e->getMessage());
+        // Usar configuración por defecto
     }
 }
 
-// Obtener datos del usuario
-$stmt = $pdo->prepare("SELECT email, first_name, last_name FROM users WHERE id = ?");
-$stmt->execute([$_SESSION['user_id']]);
-$user = $stmt->fetch();
-?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cambiar Contraseña - Gente Vigente</title>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            margin: 0;
-            padding: 2rem;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .container {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .header h1 {
-            color: #1a1a1a;
-            margin-bottom: 0.5rem;
-        }
-        .header p {
-            color: #666;
-        }
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: #333;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-            box-sizing: border-box;
-        }
-        .form-group input:focus {
-            outline: none;
-            border-color: #c78b42;
-            box-shadow: 0 0 0 3px rgba(199, 139, 66, 0.1);
-        }
-        .btn {
-            width: 100%;
-            background: linear-gradient(135deg, #c78b42, #a6722e);
-            color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(199, 139, 66, 0.3);
-        }
-        .message {
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            font-weight: 500;
-        }
-        .message.success {
-            background: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
-        }
-        .message.error {
-            background: #f8d7da;
-            border: 1px solid #f5c6cb;
-            color: #721c24;
-        }
-        .back-link {
-            display: block;
-            text-align: center;
-            margin-top: 1.5rem;
-            color: #666;
-            text-decoration: none;
-        }
-        .back-link:hover {
-            color: #c78b42;
-        }
-        .password-requirements {
-            background: #f0f9ff;
-            border: 1px solid #bae6fd;
-            padding: 1rem;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            color: #0369a1;
-            margin: 1rem 0;
-        }
-        .user-info {
-            background: #f8f9fa;
-            padding: 1rem;
-            border-radius: 6px;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-        .user-info strong {
-            color: #c78b42;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>🔐 Cambiar Contraseña</h1>
-            <p>Actualiza tu contraseña de forma segura</p>
-        </div>
-        
-        <div class="user-info">
-            <p>Conectado como: <strong><?php echo htmlspecialchars($user['email']); ?></strong></p>
-        </div>
-        
-        <?php if ($error): ?>
-            <div class="message error">
-                <?php echo htmlspecialchars($error); ?>
-            </div>
-        <?php endif; ?>
-        
-        <?php if ($success): ?>
-            <div class="message success">
-                <?php echo htmlspecialchars($success); ?>
-            </div>
-        <?php endif; ?>
-        
-        <form method="POST">
-            <div class="form-group">
-                <label for="current_password">🔒 Contraseña Actual:</label>
-                <input 
-                    type="password" 
-                    id="current_password" 
-                    name="current_password" 
-                    required
-                    placeholder="Tu contraseña actual"
-                >
-            </div>
-            
-            <div class="form-group">
-                <label for="new_password">🔑 Nueva Contraseña:</label>
-                <input 
-                    type="password" 
-                    id="new_password" 
-                    name="new_password" 
-                    required
-                    placeholder="Tu nueva contraseña"
-                    minlength="8"
-                >
-            </div>
-            
-            <div class="form-group">
-                <label for="confirm_password">✅ Confirmar Nueva Contraseña:</label>
-                <input 
-                    type="password" 
-                    id="confirm_password" 
-                    name="confirm_password" 
-                    required
-                    placeholder="Repite tu nueva contraseña"
-                    minlength="8"
-                >
-            </div>
-            
-            <div class="password-requirements">
-                <strong>Requisitos de la contraseña:</strong><br>
-                • Mínimo 8 caracteres<br>
-                • Se recomienda incluir mayúsculas, minúsculas y números<br>
-                • Evita usar información personal
-            </div>
-            
-            <button type="submit" class="btn">
-                Cambiar Contraseña
-            </button>
-        </form>
-        
-        <a href="dashboard.html" class="back-link">← Volver al Dashboard</a>
-    </div>
+// Solo acepta POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(['success' => false, 'message' => 'Método no permitido']);
+    exit;
+}
+
+try {
+    // Obtener datos del JSON
+    $input = json_decode(file_get_contents('php://input'), true);
     
-    <script>
-        // Validación en tiempo real
-        const newPassword = document.getElementById('new_password');
-        const confirmPassword = document.getElementById('confirm_password');
+    // Si JSON falla, intentar $_POST
+    if (!$input || json_last_error() !== JSON_ERROR_NONE) {
+        $input = $_POST;
+    }
+    
+    if (empty($input)) {
+        throw new Exception('No se recibieron datos válidos');
+    }
+    
+    $user_id = $_SESSION['user_id'];
+    $current_password = trim($input['currentPassword'] ?? '');
+    $new_password = trim($input['newPassword'] ?? '');
+    $confirm_password = trim($input['confirmPassword'] ?? '');
+    
+    // Validaciones básicas
+    if (empty($current_password)) {
+        throw new Exception('La contraseña actual es obligatoria');
+    }
+    
+    if (empty($new_password)) {
+        throw new Exception('La nueva contraseña es obligatoria');
+    }
+    
+    if (empty($confirm_password)) {
+        throw new Exception('Debes confirmar la nueva contraseña');
+    }
+    
+    if ($new_password !== $confirm_password) {
+        throw new Exception('Las contraseñas nuevas no coinciden');
+    }
+    
+    // Validaciones de seguridad
+    $minLength = $security['password']['min_length'] ?? 8;
+    if (strlen($new_password) < $minLength) {
+        throw new Exception("La contraseña debe tener al menos {$minLength} caracteres");
+    }
+    
+    if (($security['password']['require_uppercase'] ?? false) && !preg_match('/[A-Z]/', $new_password)) {
+        throw new Exception('La contraseña debe contener al menos una letra mayúscula');
+    }
+    
+    if (($security['password']['require_lowercase'] ?? false) && !preg_match('/[a-z]/', $new_password)) {
+        throw new Exception('La contraseña debe contener al menos una letra minúscula');
+    }
+    
+    if (($security['password']['require_numbers'] ?? false) && !preg_match('/[0-9]/', $new_password)) {
+        throw new Exception('La contraseña debe contener al menos un número');
+    }
+    
+    if (($security['password']['require_special'] ?? false) && !preg_match('/[^a-zA-Z0-9]/', $new_password)) {
+        throw new Exception('La contraseña debe contener al menos un carácter especial (!@#$%^&*)');
+    }
+    
+    // Verificar que el usuario existe y obtener contraseña actual
+    $stmt = $pdo->prepare("SELECT password_hash FROM users WHERE id = ? AND subscription_status = 'active'");
+    $stmt->execute([$user_id]);
+    $user = $stmt->fetch();
+    
+    if (!$user) {
+        throw new Exception('Usuario no encontrado o inactivo');
+    }
+    
+    // Verificar contraseña actual
+    if (!password_verify($current_password, $user['password_hash'])) {
+        throw new Exception('La contraseña actual es incorrecta');
+    }
+    
+    // Verificar que la nueva contraseña sea diferente
+    if (password_verify($new_password, $user['password_hash'])) {
+        throw new Exception('La nueva contraseña debe ser diferente a la actual');
+    }
+    
+    // Generar hash de la nueva contraseña
+    $new_password_hash = password_hash($new_password, PASSWORD_DEFAULT);
+    
+    if (!$new_password_hash) {
+        throw new Exception('Error al procesar la nueva contraseña');
+    }
+    
+    // Actualizar contraseña en la base de datos
+    $stmt = $pdo->prepare("
+        UPDATE users 
+        SET password_hash = ?, 
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = ?
+    ");
+    
+    $result = $stmt->execute([$new_password_hash, $user_id]);
+    
+    if (!$result) {
+        throw new Exception('Error al actualizar la contraseña en la base de datos');
+    }
+    
+    // Verificar que se actualizó correctamente
+    if ($stmt->rowCount() === 0) {
+        throw new Exception('No se pudo actualizar la contraseña - usuario no encontrado');
+    }
+    
+    // Registrar actividad del usuario
+    try {
+        $stmt = $pdo->prepare("
+            INSERT INTO user_activity (user_id, activity_type, description, ip_address, user_agent, created_at)
+            VALUES (?, 'password_change', ?, ?, ?, CURRENT_TIMESTAMP)
+        ");
         
-        function validatePasswords() {
-            if (newPassword.value.length > 0 && confirmPassword.value.length > 0) {
-                if (newPassword.value === confirmPassword.value) {
-                    confirmPassword.style.borderColor = '#28a745';
-                } else {
-                    confirmPassword.style.borderColor = '#dc3545';
-                }
+        $description = 'Contraseña cambiada desde el perfil de usuario';
+        $ip_address = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+        $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
+        
+        $stmt->execute([$user_id, $description, $ip_address, $user_agent]);
+        
+    } catch (PDOException $e) {
+        // Log del error pero no fallar la operación principal
+        error_log("Error registrando actividad de cambio de contraseña: " . $e->getMessage());
+    }
+    
+    // Log de seguridad
+    if (($security['logging']['enable'] ?? false)) {
+        try {
+            $logFile = $security['logging']['log_file'] ?? 'logs/security.log';
+            $logDir = dirname($logFile);
+            
+            // Crear directorio de logs si no existe
+            if (!is_dir($logDir)) {
+                mkdir($logDir, 0755, true);
             }
+            
+            $logMessage = sprintf(
+                "[%s] Password changed - User ID: %d - IP: %s - User Agent: %s\n",
+                date('Y-m-d H:i:s'),
+                $user_id,
+                $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+                $_SERVER['HTTP_USER_AGENT'] ?? 'unknown'
+            );
+            
+            file_put_contents($logFile, $logMessage, FILE_APPEND | LOCK_EX);
+            
+        } catch (Exception $e) {
+            // Log del error pero no fallar la operación principal
+            error_log("Error escribiendo log de seguridad: " . $e->getMessage());
         }
-        
-        newPassword.addEventListener('input', validatePasswords);
-        confirmPassword.addEventListener('input', validatePasswords);
-        
-        // Auto-hide success message after 5 seconds
-        <?php if ($success): ?>
-        setTimeout(() => {
-            const successMsg = document.querySelector('.message.success');
-            if (successMsg) {
-                successMsg.style.opacity = '0';
-                setTimeout(() => successMsg.remove(), 300);
-            }
-        }, 5000);
-        <?php endif; ?>
-    </script>
-</body>
-</html>
+    }
+    
+    // Respuesta exitosa
+    echo json_encode([
+        'success' => true,
+        'message' => 'Contraseña actualizada correctamente'
+    ]);
+    
+} catch (PDOException $e) {
+    error_log("Error PDO en cambio de contraseña: " . $e->getMessage());
+    http_response_code(500);
+    echo json_encode([
+        'success' => false, 
+        'message' => 'Error interno del servidor. Por favor inténtalo más tarde.'
+    ]);
+    
+} catch (Exception $e) {
+    error_log("Error en cambio de contraseña: " . $e->getMessage());
+    http_response_code(400);
+    echo json_encode([
+        'success' => false, 
+        'message' => $e->getMessage()
+    ]);
+}
+?>
