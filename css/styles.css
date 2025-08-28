@@ -1231,3 +1231,163 @@ body {
         padding: 2rem;
     }
 }
+
+/* Floating Particles Premium for Hero Section */
+.floating-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    background: #c78b42;
+    border-radius: 50%;
+    opacity: 0;
+    animation: floatUp 20s linear infinite;
+}
+
+/* Diferentes tamaños de partículas para variedad */
+.particle:nth-child(1n) {
+    width: 1px;
+    height: 1px;
+    box-shadow: 0 0 3px rgba(199, 139, 66, 0.5);
+}
+
+.particle:nth-child(2n) {
+    width: 2px;
+    height: 2px;
+    box-shadow: 0 0 4px rgba(199, 139, 66, 0.4);
+    animation-duration: 25s;
+}
+
+.particle:nth-child(3n) {
+    width: 1.5px;
+    height: 1.5px;
+    background: rgba(224, 168, 101, 0.8);
+    box-shadow: 0 0 2px rgba(224, 168, 101, 0.6);
+    animation-duration: 18s;
+}
+
+.particle:nth-child(4n) {
+    width: 0.5px;
+    height: 0.5px;
+    background: rgba(199, 139, 66, 0.6);
+    animation-duration: 30s;
+}
+
+.particle:nth-child(5n) {
+    width: 2.5px;
+    height: 2.5px;
+    box-shadow: 0 0 6px rgba(199, 139, 66, 0.3);
+    animation-duration: 15s;
+}
+
+/* Animación de flotación sutil */
+@keyframes floatUp {
+    0% {
+        opacity: 0;
+        transform: translateY(100vh) translateX(0px) scale(0);
+    }
+    5% {
+        opacity: 0.2;
+        transform: translateY(95vh) translateX(5px) scale(1);
+    }
+    15% {
+        opacity: 0.4;
+        transform: translateY(85vh) translateX(-3px) scale(1);
+    }
+    25% {
+        opacity: 0.35;
+        transform: translateY(75vh) translateX(8px) scale(1.1);
+    }
+    35% {
+        opacity: 0.5;
+        transform: translateY(65vh) translateX(-5px) scale(0.9);
+    }
+    45% {
+        opacity: 0.4;
+        transform: translateY(55vh) translateX(10px) scale(1);
+    }
+    55% {
+        opacity: 0.6;
+        transform: translateY(45vh) translateX(-8px) scale(1.2);
+    }
+    65% {
+        opacity: 0.5;
+        transform: translateY(35vh) translateX(3px) scale(0.8);
+    }
+    75% {
+        opacity: 0.4;
+        transform: translateY(25vh) translateX(-10px) scale(1);
+    }
+    85% {
+        opacity: 0.3;
+        transform: translateY(15vh) translateX(6px) scale(1.1);
+    }
+    95% {
+        opacity: 0.1;
+        transform: translateY(5vh) translateX(-2px) scale(0.9);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-5vh) translateX(0px) scale(0);
+    }
+}
+
+/* Posiciones horizontales distribuidas sutilmente */
+.particle:nth-child(1) { left: 8%; animation-delay: 0s; }
+.particle:nth-child(2) { left: 15%; animation-delay: 3s; }
+.particle:nth-child(3) { left: 25%; animation-delay: 6s; }
+.particle:nth-child(4) { left: 35%; animation-delay: 1s; }
+.particle:nth-child(5) { left: 45%; animation-delay: 9s; }
+.particle:nth-child(6) { left: 55%; animation-delay: 4s; }
+.particle:nth-child(7) { left: 65%; animation-delay: 12s; }
+.particle:nth-child(8) { left: 75%; animation-delay: 7s; }
+.particle:nth-child(9) { left: 85%; animation-delay: 15s; }
+.particle:nth-child(10) { left: 92%; animation-delay: 2s; }
+.particle:nth-child(11) { left: 18%; animation-delay: 11s; }
+.particle:nth-child(12) { left: 28%; animation-delay: 5s; }
+.particle:nth-child(13) { left: 38%; animation-delay: 14s; }
+.particle:nth-child(14) { left: 48%; animation-delay: 8s; }
+.particle:nth-child(15) { left: 58%; animation-delay: 17s; }
+.particle:nth-child(16) { left: 68%; animation-delay: 10s; }
+.particle:nth-child(17) { left: 78%; animation-delay: 13s; }
+.particle:nth-child(18) { left: 88%; animation-delay: 16s; }
+
+/* Optimización mobile - menos partículas */
+@media (max-width: 768px) {
+    .particle:nth-child(n+10) {
+        display: none;
+    }
+    
+    .particle {
+        animation-duration: 25s;
+    }
+}
+
+/* Para usuarios que prefieren menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+    .floating-particles {
+        display: none;
+    }
+}
+
+/* Variación de brillo sutil para algunas partículas */
+.particle:nth-child(7n) {
+    animation: floatUp 22s linear infinite, twinkle 4s ease-in-out infinite;
+}
+
+.particle:nth-child(11n) {
+    animation: floatUp 28s linear infinite, twinkle 6s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.7; }
+}

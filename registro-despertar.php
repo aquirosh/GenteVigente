@@ -258,7 +258,7 @@ class UserRegistration {
                             </div>
                             <div style='display: flex; justify-content: space-between;'>
                                 <span style='color: #475569;'>Precio:</span>
-                                <span style='color: #0c4a6e; font-weight: 600;'>$20 USD/mes</span>
+                                <span style='color: #0c4a6e; font-weight: 600;'>$75 USD/mes</span>
                             </div>
                         </div>
                     </div>
@@ -326,7 +326,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_user'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plan Despertar - <?php echo $config['app']['name']; ?></title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
     <style>
         :root {
             --primary-color: #cd7f32;
@@ -650,39 +650,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_user'])) {
             transform: none; 
         }
         
-        .security-note {
-            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-            border: 1px solid #bae6fd;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            position: relative;
-        }
         
-        .security-note::before {
-            content: '🔒';
-            position: absolute;
-            top: -10px;
-            left: 20px;
-            background: white;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 1rem;
-        }
-        
-        .security-note h4 { 
-            color: #0c4a6e; 
-            margin-bottom: 0.75rem; 
-            font-size: 1rem;
-            font-weight: 600;
-        }
-        
-        .security-note p { 
-            color: #0369a1; 
-            font-size: 0.9rem; 
-            line-height: 1.5;
-            margin: 0; 
-        }
         
         .back-link {
             text-align: center;
@@ -722,9 +690,204 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_user'])) {
             .plan-title { font-size: 2rem; }
             .brand-title { font-size: 1.5rem; }
         }
+        /* Fireflies Background Animation for Despertar Plan */
+.fireflies {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.firefly {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #CD7F32;
+    border-radius: 50%;
+    box-shadow: 
+        0 0 6px #CD7F32,
+        0 0 12px #CD7F32,
+        0 0 18px rgba(205, 127, 50, 0.8),
+        0 0 24px rgba(205, 127, 50, 0.6);
+    animation: fly 18s linear infinite;
+    opacity: 0;
+}
+
+/* Different sizes for variety */
+.firefly:nth-child(2n) {
+    width: 3px;
+    height: 3px;
+    animation-duration: 22s;
+}
+
+.firefly:nth-child(3n) {
+    width: 5px;
+    height: 5px;
+    animation-duration: 15s;
+    box-shadow: 
+        0 0 8px #e6a96d,
+        0 0 16px #e6a96d,
+        0 0 24px rgba(230, 169, 109, 0.8),
+        0 0 32px rgba(230, 169, 109, 0.6);
+}
+
+.firefly:nth-child(4n) {
+    width: 2px;
+    height: 2px;
+    animation-duration: 25s;
+    background: #e6a96d;
+    box-shadow: 
+        0 0 4px #e6a96d,
+        0 0 8px #e6a96d,
+        0 0 12px rgba(230, 169, 109, 0.7);
+}
+
+.firefly:nth-child(5n) {
+    width: 6px;
+    height: 6px;
+    animation-duration: 12s;
+    background: #a0522d;
+    box-shadow: 
+        0 0 10px #a0522d,
+        0 0 20px #a0522d,
+        0 0 30px rgba(160, 82, 45, 0.8);
+}
+
+/* Flight animation */
+@keyframes fly {
+    0% {
+        opacity: 0;
+        transform: translateY(100vh) translateX(0) scale(0);
+    }
+    10% {
+        opacity: 1;
+        transform: translateY(90vh) translateX(15px) scale(1);
+    }
+    20% {
+        transform: translateY(80vh) translateX(-20px) scale(1);
+    }
+    30% {
+        transform: translateY(70vh) translateX(25px) scale(1.1);
+    }
+    40% {
+        transform: translateY(60vh) translateX(-10px) scale(0.9);
+    }
+    50% {
+        transform: translateY(50vh) translateX(30px) scale(1);
+    }
+    60% {
+        transform: translateY(40vh) translateX(-25px) scale(1.2);
+    }
+    70% {
+        transform: translateY(30vh) translateX(10px) scale(0.8);
+    }
+    80% {
+        transform: translateY(20vh) translateX(-30px) scale(1);
+    }
+    90% {
+        opacity: 1;
+        transform: translateY(10vh) translateX(20px) scale(1.1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-10vh) translateX(0) scale(0);
+    }
+}
+
+/* Pulsing glow effect */
+.firefly::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(205, 127, 50, 0.4), transparent 70%);
+    animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.8);
+        opacity: 0.3;
+    }
+}
+
+/* Individual firefly positions and delays - DISTRIBUTED ACROSS FULL SCREEN */
+.firefly:nth-child(1) {
+    left: 15%;
+    animation-delay: 0s;
+}
+
+.firefly:nth-child(2) {
+    left: 35%;
+    animation-delay: 4s;
+}
+
+.firefly:nth-child(3) {
+    left: 55%;
+    animation-delay: 8s;
+}
+
+.firefly:nth-child(4) {
+    left: 75%;
+    animation-delay: 2s;
+}
+
+.firefly:nth-child(5) {
+    left: 90%;
+    animation-delay: 6s;
+}
+
+/* Mobile optimization - show only 3 fireflies */
+@media (max-width: 768px) {
+    .firefly:nth-child(n+4) {
+        display: none;
+    }
+    
+    .firefly {
+        animation-duration: 25s;
+    }
+    
+    /* Redistribute the remaining 3 fireflies on mobile */
+    .firefly:nth-child(1) {
+        left: 20%;
+    }
+    
+    .firefly:nth-child(2) {
+        left: 50%;
+    }
+    
+    .firefly:nth-child(3) {
+        left: 80%;
+    }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    .fireflies {
+        display: none;
+    }
+}
     </style>
 </head>
 <body>
+    <div class="fireflies">
+    <div class="firefly"></div>
+    <div class="firefly"></div>
+    <div class="firefly"></div>
+    <div class="firefly"></div>
+    <div class="firefly"></div>
+    </div>
     <div class="container">
         <div class="header">
             <div class="header-content">
@@ -733,7 +896,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_user'])) {
                 <p class="plan-subtitle">Para emprendedores y profesionales en crecimiento</p>
                 <div class="price-display">
                     <span class="price-currency">$</span>
-                    <span class="price-amount">20</span>
+                    <span class="price-amount">75</span>
                     <span class="price-period">/mes</span>
                 </div>
             </div>
@@ -742,10 +905,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_user'])) {
         <div class="form-container">
             <div id="alert" class="alert"></div>
             
-            <div class="security-note">
-                <h4>Registro Automático</h4>
-                <p>Al completar tu registro, recibirás un email con tus credenciales de acceso y una contraseña temporal que deberás cambiar en tu primer login.</p>
-            </div>
+            
             
             <div class="benefits">
                 <h4>Tu Plan Despertar incluye</h4>

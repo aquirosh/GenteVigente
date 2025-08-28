@@ -1,0 +1,164 @@
+/* Back to Top Button - Estética Gente Vigente */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #c78b42, #d4a94c);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.8);
+    box-shadow: 
+        0 8px 25px rgba(199, 139, 66, 0.4),
+        0 0 0 1px rgba(199, 139, 66, 0.1);
+    backdrop-filter: blur(20px);
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+/* Estado visible */
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+/* Efectos hover */
+.back-to-top:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 
+        0 15px 35px rgba(199, 139, 66, 0.6),
+        0 0 0 1px rgba(199, 139, 66, 0.2);
+    background: linear-gradient(135deg, #d4a94c, #efbf04);
+}
+
+/* Icono de flecha */
+.back-to-top::before {
+    content: '↑';
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1;
+    transition: transform 0.3s ease;
+}
+
+.back-to-top:hover::before {
+    transform: translateY(-2px);
+}
+
+/* Efecto de pulse sutil */
+.back-to-top::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(199, 139, 66, 0.3), rgba(212, 169, 76, 0.3));
+    z-index: -1;
+    animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.15);
+        opacity: 0.3;
+    }
+}
+
+/* Efecto de brillo al pasar el mouse */
+.back-to-top:hover::after {
+    animation-play-state: paused;
+    transform: scale(1.2);
+    opacity: 0.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .back-to-top {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 18px;
+    }
+    
+    .back-to-top::before {
+        font-size: 16px;
+    }
+}
+
+/* Para usuarios que prefieren menos animaciones */
+@media (prefers-reduced-motion: reduce) {
+    .back-to-top {
+        transition: opacity 0.3s ease;
+    }
+    
+    .back-to-top::after {
+        display: none;
+    }
+    
+    .back-to-top:hover {
+        transform: none;
+    }
+}
+
+/* Variante con progreso de scroll (opcional) */
+.back-to-top.with-progress {
+    background: conic-gradient(
+        #c78b42 0deg,
+        #c78b42 var(--progress, 0deg),
+        rgba(199, 139, 66, 0.2) var(--progress, 0deg),
+        rgba(199, 139, 66, 0.2) 360deg
+    );
+}
+
+.back-to-top.with-progress::before {
+    background: linear-gradient(135deg, #c78b42, #d4a94c);
+    border-radius: 50%;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    content: '↑';
+}
+
+/* Estilo para sitio web oscuro como Gente Vigente */
+body.dark-theme .back-to-top {
+    background: linear-gradient(135deg, #c78b42, #d4a94c);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(199, 139, 66, 0.2);
+}
+
+/* Animación de entrada suave */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.back-to-top.first-show {
+    animation: slideInUp 0.5s ease-out;
+}
