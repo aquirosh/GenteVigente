@@ -52,6 +52,7 @@ body {
     color: var(--primary-colorr);
     letter-spacing: 2px;
     text-transform: uppercase;
+    transform: translateX(79px);
 }
 
 .nav-menu {

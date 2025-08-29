@@ -691,7 +691,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_user'])) {
             .brand-title { font-size: 1.5rem; }
         }
 
-        /* Fireflies Background Animation for Despertar Plan */
+     /* Fireflies Background Animation for Despertar Plan */
     .fireflies {
         position: fixed;
         top: 0;

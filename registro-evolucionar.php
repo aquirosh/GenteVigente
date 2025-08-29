@@ -327,7 +327,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_user'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plan Evolucionar - Gente Vigente</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="css/fireflies.css" rel="stylesheet">
     <style>
         :root {
             --primary-evolucionar: #c78b42;

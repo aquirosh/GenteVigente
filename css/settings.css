@@ -1,0 +1,316 @@
+/* Dropdown de settings */
+
+:root{
+    --primary-colorr: #c78b42; /* Color dorado/bronce */
+    --secondary-color: #1a1a1a; /* Color oscuro */
+    --background-color: #fafafa; /* Color de fondo claro */
+    --text-color: #666; /* Color de texto secundario */
+    --highlight-color: #a6722e; /* Color de resaltado */
+}
+
+
+.settings-dropdown {
+    position: relative;
+    z-index: 1001;
+}
+
+.settings-trigger {
+    width: 40px;
+    height: 40px;
+    background: rgba(199, 139, 66, 0.1);
+    border: 2px solid rgba(199, 139, 66, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    position: relative;
+}
+
+.settings-trigger:hover {
+    background: rgba(199, 139, 66, 0.2);
+    border-color: rgba(199, 139, 66, 0.5);
+    transform: scale(1.1);
+}
+
+/* Icono de settings */
+.settings-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--primary-colorr);
+    transition: transform 0.3s ease;
+}
+
+.settings-trigger:hover .settings-icon {
+    transform: rotate(45deg);
+}
+
+
+/* Dropdown Menu */
+.settings-menu {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    min-width: 260px;
+    background: rgba(26, 26, 26, 0.98);
+    backdrop-filter: blur(30px);
+    border: 1px solid rgba(199, 139, 66, 0.2);
+    border-radius: 16px;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.settings-dropdown.active .settings-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Header del dropdown */
+.settings-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(199, 139, 66, 0.05);
+}
+
+.settings-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary-colorr);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Contenido del dropdown */
+.settings-content {
+    padding: 12px 0;
+}
+
+/* Item de configuración */
+.setting-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+}
+
+.setting-item:hover {
+    background: rgba(199, 139, 66, 0.1);
+    color: white;
+}
+
+.setting-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.setting-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.toggle-switch.active {
+    background: var(--primary-colorr);
+}
+
+.toggle-slider {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.toggle-switch.active .toggle-slider {
+    transform: translateX(20px);
+}
+
+/* Separador */
+.settings-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 8px 20px;
+}
+
+/* Botón de acción */
+.settings-action {
+    padding: 12px 20px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.settings-action:hover {
+    background: rgba(199, 139, 66, 0.1);
+    color: var(--primary-colorr);
+}
+
+/* Versión responsive */
+@media (max-width: 768px) {
+    .settings-dropdown {
+        left: 1rem;
+    }
+    
+    .settings-trigger {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .settings-icon {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .settings-menu {
+        min-width: 240px;
+    }
+}
+
+/* Estados de animación */
+body.animations-disabled .settings-trigger .settings-icon {
+    transition: none;
+}
+
+body.animations-disabled .settings-trigger:hover .settings-icon {
+    transform: none;
+}
+
+body.animations-disabled .settings-menu {
+    transition: opacity 0.2s ease;
+}
+
+/* Demo styles */
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+    color: white;
+    min-height: 100vh;
+    padding-top: 100px;
+}
+
+.demo-content {
+    text-align: center;
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.demo-content h1 {
+    color: var(--primary-colorr);
+    margin-bottom: 1rem;
+}
+
+.demo-content p {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2rem;
+}
+
+/* Animaciones flotantes de demo */
+.floating-element {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--primary-colorr);
+    border-radius: 50%;
+    animation: float 10s linear infinite;
+    opacity: 0.6;
+}
+
+.floating-element:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+.floating-element:nth-child(2) { top: 60%; left: 80%; animation-delay: 2s; }
+.floating-element:nth-child(3) { top: 80%; left: 20%; animation-delay: 4s; }
+
+@keyframes float {
+    0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.6; }
+    100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+}
+
+/* Círculo giratorio de demo */
+.rotating-circle {
+    position: absolute;
+    top: 20%;
+    right: 10%;
+    width: 150px;
+    height: 150px;
+    border: 1px solid rgba(199, 139, 66, 0.3);
+    border-radius: 50%;
+    animation: rotate 15s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Estados cuando las animaciones están deshabilitadas */
+body.animations-disabled .floating-element,
+body.animations-disabled .rotating-circle {
+    display: none;
+}
+
+body.animations-disabled .fireflies,
+body.animations-disabled .floating-particles {
+    display: none !important;
+}
+
+body.animations-disabled .geometric-circle,
+body.animations-disabled .geometric-circle::before,
+body.animations-disabled .geometric-circle::after {
+    animation: none !important;
+}
+
+body.animations-disabled .visual-circle,
+body.animations-disabled .visual-lines {
+    animation: none !important;
+}
+
+body.animations-disabled .main-logo {
+    animation: none !important;
+}
+
+body.animations-disabled .back-to-top::after {
+    display: none !important;
+}

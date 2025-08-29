@@ -8,17 +8,58 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/membership.css">
     <link rel="stylesheet" href="css/backtotop.css">
+    <link rel="stylesheet" href="css/settings.css">
+
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="nav-container" >
+        <div class="nav-container">
             <div class="nav-logo">GENTE VIGENTE</div>
             <div class="nav-menu">
                 <a href="#manifesto" class="nav-link">Manifiesto</a>
                 <a href="#nosotros" class="nav-link">Nosotros</a>
                 <a href="login.php" class="nav-link nav-cta">Acceso Miembros</a>
+    
+                <div class="settings-dropdown" id="settingsDropdown">
+                    <button class="settings-trigger" id="settingsTrigger" aria-label="Configuraciones">
+                        <svg class="settings-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 
+                            1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 
+                            19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 
+                            .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 
+                            0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 
+                            1.65 0 0 0 1 1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 
+                            2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 
+                            0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                    </button>
+                    
+                    <div class="settings-menu" id="settingsMenu">
+                        <div class="settings-header">
+                            <h3 class="settings-title">Configuraciones</h3>
+                        </div>
+                        
+                        <div class="settings-content">
+                            <button class="setting-item" id="animationsToggle">
+                                <span class="setting-label">
+                                    <svg class="setting-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                                    </svg>
+                                    Animaciones
+                                </span>
+                                <div class="toggle-switch active" id="animationsSwitch">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </button>
+                            
+                            <div class="settings-divider"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            
             <div class="mobile-menu-toggle">
                 <span></span>
                 <span></span>
@@ -115,20 +156,7 @@
                     <p class="section-description fade-up">
                         En Gente Vigente no solo compartimos conocimiento, construimos un estilo de vida: aprender, reinventarse y brillar con luz propia.
                     </p>
-                    <!-- <div class="nosotros-stats fade-up">
-                        <div class="stat-item">
-                            <span class="stat-number">500+</span>
-                            <span class="stat-label">Líderes Activos</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">50+</span>
-                            <span class="stat-label">Países</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">95%</span>
-                            <span class="stat-label">Satisfacción</span>
-                        </div>
-                    </div> -->
+
                 </div>
                 <div class="nosotros-visual fade-up">
                     <div class="visual-element">
@@ -357,5 +385,6 @@
     <script src="js/script.js"></script>
     <button class="back-to-top" id="backToTop" aria-label="Volver arriba"></button>
     <script src="js/backtotop.js"></script>
+    <script src="js/settings.js"></script>
 </body>
 </html>
