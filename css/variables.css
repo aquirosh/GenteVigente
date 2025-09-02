@@ -1,0 +1,25 @@
+/* variables.css */
+:root{
+    --primary-colorr: #E4B948;
+    --secondary-color: #1a1a1a;
+    --background-color: #fafafa;
+    --text-color: #666;
+    --highlight-color: #EEC851;
+    --primary-gradient: linear-gradient(135deg, #CC9432, #E4B948, #EEC851);
+    --primary-gradient-inverted: linear-gradient(135deg, #EEC851, #E4B948, #CC9432);
+    --background-gradient: linear-gradient(180deg, #fafafa, #fff7eb);
+    --logo-gradient: linear-gradient(45deg, #CC9432, #E4B948, #EEC851, #E4B948);
+    --logo-gradient-hover: linear-gradient(45deg, #EEC851, #E4B948, #CC9432, #E4B948);
+    --hero-gradient: linear-gradient(135deg, #0f0f0f 0%, var(--secondary-color) 100%);
+    --logo-shadow: 0 0 30px rgba(228, 185, 72, 0.4), 0 0 60px rgba(238, 200, 81, 0.2);
+    --logo-shadow-hover: 0 0 40px rgba(228, 185, 72, 0.6), 0 0 80px rgba(238, 200, 81, 0.3);
+    --card-shadow: 0 10px 30px rgba(228, 185, 72, 0.15);
+    --button-shadow: 0 8px 25px rgba(228, 185, 72, 0.3);
+    
+    /* Variables específicas adicionales */
+    --primary-despertar: #CD7F32;
+    --light-despertar: #e6a96d;
+    --dark-despertar: #a0522d;
+    --primary-evolucionar: #E4B948;
+    --light-evolucionar: #EEC851;
+}

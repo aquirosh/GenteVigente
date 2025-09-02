@@ -1,11 +1,11 @@
 /* Dropdown de settings */
 
 :root{
-    --primary-colorr: #c78b42; /* Color dorado/bronce */
+    --primary-color: #E4B948; /* Color dorado/bronce */
     --secondary-color: #1a1a1a; /* Color oscuro */
     --background-color: #fafafa; /* Color de fondo claro */
     --text-color: #666; /* Color de texto secundario */
-    --highlight-color: #a6722e; /* Color de resaltado */
+    --highlight-color: #EEC851; /* Color de resaltado */
 }
 
 
@@ -39,7 +39,7 @@
 .settings-icon {
     width: 18px;
     height: 18px;
-    color: var(--primary-colorr);
+    color: var(--primary-color);
     transition: transform 0.3s ease;
 }
 
@@ -84,7 +84,7 @@
 .settings-title {
     font-size: 14px;
     font-weight: 600;
-    color: var(--primary-colorr);
+    color: var(--primary-color);
     margin: 0;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -141,7 +141,7 @@
 }
 
 .toggle-switch.active {
-    background: var(--primary-colorr);
+    background: var(--primary-color);
 }
 
 .toggle-slider {
@@ -182,7 +182,7 @@
 
 .settings-action:hover {
     background: rgba(199, 139, 66, 0.1);
-    color: var(--primary-colorr);
+    color: var(--primary-color);
 }
 
 /* Versión responsive */
@@ -237,7 +237,7 @@ body {
 }
 
 .demo-content h1 {
-    color: var(--primary-colorr);
+    color: var(--primary-color);
     margin-bottom: 1rem;
 }
 
@@ -251,7 +251,7 @@ body {
     position: absolute;
     width: 4px;
     height: 4px;
-    background: var(--primary-colorr);
+    background: var(--primary-color);
     border-radius: 50%;
     animation: float 10s linear infinite;
     opacity: 0.6;

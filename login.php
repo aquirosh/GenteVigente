@@ -162,6 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Login - Gente Vigente</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=visibility,visibility_off" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
@@ -172,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="login-container">
             <div class="login-header">
                 <div class="logo-container">
-                    <img src="img/GenteVigente.png" alt="Gente Vigente" class="main-logo">
+                    <img src="img/LogoGVNB.png" alt="Gente Vigente" class="main-logo">
                 </div>
                 <h1 class="login-title">Acceso Miembros</h1>
                 <p class="login-subtitle">Ingresa a tu área exclusiva</p>
@@ -234,7 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </form>
             
             <div class="login-links">
-                <a href="#" onclick="showForgotPassword()" class="forgot-link">
+                <a href="forgot-password.php" onclick="showForgotPassword()" class="forgot-link">
                     ¿Olvidaste tu contraseña?
                 </a>
             </div>

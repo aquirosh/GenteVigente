@@ -13,7 +13,7 @@
     <!-- Sidebar -->
     <nav class="sidebar">
         <div class="sidebar-header">
-            <img src="img/GenteVigente.png" alt="Gente Vigente" class="logo">
+            <img src="img/LogoGVNB.png" alt="Gente Vigente" class="logo">
         </div>
         
         <div class="sidebar-menu">
@@ -68,7 +68,7 @@
             
             <div class="welcome-card">
                 <div class="brand-logo">
-                    <img src="img/GenteVigente.png" alt="Gente Vigente" class="brand-image">
+                    <img src="img/LogoGV.png" alt="Gente Vigente" class="brand-image">
                 </div>
                 <div class="welcome-content">
                     <h2>Bienvenido al menú exclusivo de GV</h2>

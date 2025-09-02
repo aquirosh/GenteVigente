@@ -1,10 +1,4 @@
-:root {
-    --primary-color: #c78b42;
-    --secondary-color: #1a1a1a;
-    --background-color: #fafafa;
-    --text-color: #666;
-    --highlight-color: #a6722e;
-}
+
 
 * {
     margin: 0;
@@ -119,7 +113,7 @@ body {
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
+    background: linear-gradient(90deg, transparent, rgba(228, 185, 72, 0.5), transparent);
 }
 
 @keyframes fadeInUp {
@@ -157,13 +151,13 @@ body {
 }
 
 .login-title {
-    font-family: 'Trajan Pro', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 2rem;
     font-weight: 700;
     color: var(--secondary-color);
     margin-bottom: 0.3rem;
     letter-spacing: 1px;
-    background: linear-gradient(20deg, var(--secondary-color), var(--primary-color));
+    background: var(--logo-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -218,11 +212,11 @@ body {
 
 .form-input:focus {
     outline: none;
-    border-color: var(--primary-color);
+    border-color: var(--primary-colorr);
     background: white;
     box-shadow: 
-        0 0 0 4px rgba(199, 139, 66, 0.1),
-        0 8px 32px rgba(199, 139, 66, 0.15);
+        0 0 0 4px rgba(228, 185, 72, 0.1),
+        0 8px 32px rgba(228, 185, 72, 0.15);
     transform: translateY(-2px);
 }
 
@@ -234,7 +228,7 @@ body {
 /* Botón principal */
 .btn-login {
     width: 100%;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--highlight-color) 100%);
+    background: var(--primary-gradient);
     color: white;
     padding: 1.1rem 2rem;
     border: none;
@@ -245,7 +239,7 @@ body {
     letter-spacing: 1px;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 8px 32px rgba(199, 139, 66, 0.3);
+    box-shadow: 0 8px 32px rgba(228, 185, 72, 0.3);
     position: relative;
     overflow: hidden;
 }
@@ -263,7 +257,7 @@ body {
 
 .btn-login:hover {
     transform: translateY(-3px);
-    box-shadow: 0 16px 48px rgba(199, 139, 66, 0.4);
+    box-shadow: 0 16px 48px rgba(228, 185, 72, 0.4);
 }
 
 .btn-login:hover::before {
@@ -287,7 +281,7 @@ body {
 }
 
 .forgot-link {
-    color: var(--primary-color);
+    color: var(--primary-colorr);
     text-decoration: none;
     font-size: 0.9rem;
     font-weight: 500;
@@ -302,7 +296,7 @@ body {
     left: 0;
     width: 0;
     height: 1px;
-    background: var(--primary-color);
+    background: var(--primary-colorr);
     transition: width 0.3s ease;
 }
 
@@ -328,7 +322,7 @@ body {
 }
 
 .back-link:hover {
-    color: var(--primary-color);
+    color: var(--primary-colorr);
     transform: translateX(-3px);
 }
 
@@ -456,7 +450,7 @@ body {
 .btn-login:focus-visible,
 .forgot-link:focus-visible,
 .back-link:focus-visible {
-    outline: 2px solid var(--primary-color);
+    outline: 2px solid var(--primary-colorr);
     outline-offset: 2px;
 }
 
@@ -481,10 +475,11 @@ body {
 }
 
 .password-toggle:hover {
-    color: var(--primary-color);
-    background: rgba(199, 139, 66, 0.1);
+    color: var(--primary-colorr);
+    background: rgba(228, 185, 72, 0.1);
 }
 
 .password-toggle .material-symbols-outlined {
     font-size: 1.2rem;
 }
+
