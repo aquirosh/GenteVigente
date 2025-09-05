@@ -67,11 +67,11 @@ function initializeNavigation() {
         if (scrolled) {
             navbar.style.background = 'rgba(15, 15, 15, 0.98)';
             navbar.style.backdropFilter = 'blur(25px)';
-            navbar.style.borderBottom = '1px solid rgba(255, 255, 255, 0.1)';
+            navbar.style.borderBottom = 'none'; // Sin borde
         } else {
             navbar.style.background = 'rgba(15, 15, 15, 0.95)';
             navbar.style.backdropFilter = 'blur(20px)';
-            navbar.style.borderBottom = '1px solid rgba(255, 255, 255, 0.05)';
+            navbar.style.borderBottom = 'none'; // Sin borde
         }
     });
 }

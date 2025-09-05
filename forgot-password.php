@@ -31,6 +31,7 @@ if (isset($_SESSION['error_message'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recuperar Contraseña - Gente Vigente</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
