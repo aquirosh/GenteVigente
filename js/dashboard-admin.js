@@ -21,14 +21,17 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Navegación
+// Función de navegación corregida para js/dashboard-admin.js
+
 function initNavigation() {
     const menuItems = document.querySelectorAll('.menu-item:not(.logout)');
     
     menuItems.forEach(item => {
         item.addEventListener('click', function(e) {
-            e.preventDefault();
             const section = this.getAttribute('data-section');
-            if (section) {
+            const href = this.getAttribute('href');
+            if (section && href === '#') {
+                e.preventDefault();
                 navigateTo(section);
             }
         });

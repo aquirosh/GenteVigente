@@ -115,6 +115,10 @@ function navigateTo(sectionName) {
     }
     
     currentSection = sectionName;
+
+    if (sectionName === 'contenidos') {
+        loadUserContent(); // Esta función carga el contenido desde el servidor
+    }
 }
 
 // Inicializar eventos de contenido
@@ -652,6 +656,247 @@ function checkSessionStatus() {
         });
 }
 
+function loadUserContent() {
+    const loadingState = document.getElementById('contentLoading');
+    const errorState = document.getElementById('contentError');
+    const contentList = document.getElementById('contentList');
+    const emptyState = document.getElementById('contentEmpty');
+    
+    // Mostrar loading
+    if (loadingState) loadingState.style.display = 'flex';
+    if (errorState) errorState.style.display = 'none';
+    if (contentList) contentList.style.display = 'none';
+    if (emptyState) emptyState.style.display = 'none';
+    
+    fetch('backend/get-user-content.php')
+        .then(response => response.json())
+        .then(data => {
+            if (loadingState) loadingState.style.display = 'none';
+            
+            if (data.success) {
+                if (data.content && data.content.length > 0) {
+                    renderUserContent(data.content, data.userPlan);
+                    if (contentList) contentList.style.display = 'block';
+                } else {
+                    if (emptyState) emptyState.style.display = 'block';
+                }
+            } else {
+                if (errorState) errorState.style.display = 'block';
+            }
+        })
+        .catch(error => {
+            console.error('Error cargando contenido:', error);
+            if (loadingState) loadingState.style.display = 'none';
+            if (errorState) errorState.style.display = 'block';
+        });
+}
+
+function renderUserContent(content, userPlan) {
+    const contentList = document.getElementById('contentList');
+    if (!contentList) return;
+    
+    const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    
+    const contentHTML = content.map(item => {
+        const isNew = new Date(item.created_at) > oneDayAgo;
+        const isRestricted = item.isPremium && !item.hasAccess;
+        
+        let statusClass = 'available';
+        let statusText = 'Disponible';
+        
+        if (isRestricted) {
+            statusClass = 'restricted';
+            statusText = 'Solo Evolucionar ($125)';
+        } else if (item.isPremium) {
+            statusClass = 'premium';
+            statusText = 'Contenido Premium';
+        }
+        
+        return `
+            <div class="content-item ${isRestricted ? 'restricted' : ''} ${isNew ? 'content-item-new' : ''}" 
+                 data-content-id="${item.id}" 
+                 data-has-access="${item.hasAccess}">
+                <div class="content-icon">${item.icon}</div>
+                <div class="content-info">
+                    <h3>${escapeHtml(item.title)}</h3>
+                    <p>${escapeHtml(item.description || 'Sin descripción disponible')}</p>
+                    <span class="instructor">${escapeHtml(item.duration)}</span>
+                </div>
+                <div class="content-status ${statusClass}">${statusText}</div>
+            </div>
+        `;
+    }).join('');
+    
+    contentList.innerHTML = contentHTML;
+    initDynamicContentEvents();
+}
+
+function initDynamicContentEvents() {
+    document.querySelectorAll('#contentList .content-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const contentId = this.getAttribute('data-content-id');
+            const hasAccess = this.getAttribute('data-has-access') === 'true';
+            const title = this.querySelector('h3').textContent;
+            const category = this.getAttribute('data-category') || 'document';
+            
+            if (!hasAccess) {
+                showNotification('Este contenido requiere plan Evolucionar', 'error');
+                return;
+            }
+            
+            // Manejar acceso según el tipo de contenido
+            handleContentAccess(contentId, title, category);
+        });
+    });
+}
+
+function handleContentAccess(contentId, title, category) {
+    // Crear modal para mostrar opciones
+    showContentModal(contentId, title, category);
+}
+
+function showContentModal(contentId, title, category) {
+    // Crear modal dinámico
+    const modal = document.createElement('div');
+    modal.className = 'content-modal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+    `;
+    
+    const modalContent = document.createElement('div');
+    modalContent.className = 'modal-content';
+    modalContent.style.cssText = `
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        max-width: 500px;
+        width: 90%;
+        text-align: center;
+    `;
+    
+    // Determinar opciones según el tipo
+    let buttons = '';
+    if (category === 'video' || category === 'grabacion_zoom' || category === 'webinar' || category === 'masterclass') {
+        buttons = `<button onclick="openContent('${contentId}', 'view')" class="btn-primary">📺 Ver Video</button>`;
+    } else if (category === 'audio' || category === 'podcast') {
+        buttons = `<button onclick="openContent('${contentId}', 'view')" class="btn-primary">🎵 Reproducir</button>`;
+    } else {
+        buttons = `<button onclick="openContent('${contentId}', 'view')" class="btn-primary">👁️ Ver Documento</button>`;
+    }
+    modalContent.innerHTML = `
+        <h3 style="margin-bottom: 1rem; color: var(--secondary-color);">${escapeHtml(title)}</h3>
+        <p style="margin-bottom: 2rem; color: var(--text-color);">¿Cómo quieres acceder a este contenido?</p>
+        ${buttons}
+        <button onclick="closeContentModal()" class="btn-outline" style="margin: 0.5rem;">
+            ❌ Cancelar
+        </button>
+    `;
+    
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
+    
+    // Cerrar al hacer clic fuera
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeContentModal();
+        }
+    });
+}
+
+function openContent(contentId, action) {
+    closeContentModal();
+    
+    const url = `backend/serve-content.php?id=${contentId}&action=${action}`;
+    
+    if (action === 'download') {
+        // Descargar archivo
+        showNotification('Iniciando descarga...', 'info');
+        
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = '';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+    } else {
+        // Abrir en nueva ventana para ver
+        showNotification('Abriendo contenido...', 'info');
+        window.open(url, '_blank');
+    }
+}
+
+function closeContentModal() {
+    const modal = document.querySelector('.content-modal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+function renderUserContent(content, userPlan) {
+    const contentList = document.getElementById('contentList');
+    if (!contentList) return;
+    
+    const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    
+    const contentHTML = content.map(item => {
+        const isNew = new Date(item.created_at) > oneDayAgo;
+        const isRestricted = item.isPremium && !item.hasAccess;
+        
+        let statusClass = 'available';
+        let statusText = 'Disponible';
+        
+        if (isRestricted) {
+            statusClass = 'restricted';
+            statusText = 'Solo Evolucionar ($125)';
+        } else if (item.isPremium) {
+            statusClass = 'premium';
+            statusText = 'Contenido Premium';
+        }
+        
+        return `
+            <div class="content-item ${isRestricted ? 'restricted' : ''} ${isNew ? 'content-item-new' : ''}" 
+                 data-content-id="${item.id}" 
+                 data-has-access="${item.hasAccess}"
+                 data-category="${item.category}">
+                <div class="content-icon">${item.icon}</div>
+                <div class="content-info">
+                    <h3>${escapeHtml(item.title)}</h3>
+                    <p>${escapeHtml(item.description || 'Sin descripción disponible')}</p>
+                    <span class="instructor">${escapeHtml(item.duration)}</span>
+                </div>
+                <div class="content-status ${statusClass}">${statusText}</div>
+            </div>
+        `;
+    }).join('');
+    
+    contentList.innerHTML = contentHTML;
+    initDynamicContentEvents();
+}
+
+
+
+function escapeHtml(text) {
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text ? text.replace(/[&<>"']/g, m => map[m]) : '';
+}
+
+
 // Verificar sesión cada 10 minutos (opcional)
 setInterval(checkSessionStatus, 600000);
 
@@ -665,6 +910,9 @@ window.savePassword = savePassword;
 window.resetForm = resetForm;
 window.logout = logout;
 window.togglePasswordVisibility = togglePasswordVisibility;
+window.loadUserContent = loadUserContent;
+window.openContent = openContent;
+window.closeContentModal = closeContentModal;
 
 // Función para toggle de visibilidad de contraseñas
 function togglePasswordVisibility(inputId) {

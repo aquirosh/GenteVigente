@@ -169,60 +169,28 @@ try {
         <!-- Contenidos Section -->
         <section id="contenidos-section" class="content-section">
             <h1 class="page-title">Contenidos Exclusivos</h1>
-            
-            <div class="content-list">
-                <!-- Contenido básico disponible para todos -->
-                <div class="content-item">
-                    <div class="content-icon">🎥</div>
-                    <div class="content-info">
-                        <h3>Grabación: Fundamentos del Liderazgo Personal</h3>
-                        <p>Sesión grabada sobre los pilares fundamentales para desarrollar tu liderazgo personal y profesional.</p>
-                        <span class="instructor">Grabación Zoom - 45 min</span>
-                    </div>
-                    <div class="content-status">Disponible</div>
-                </div>
 
-                <div class="content-item">
-                    <div class="content-icon">📚</div>
-                    <div class="content-info">
-                        <h3>PDF: Guía de Desarrollo Personal</h3>
-                        <p>Material completo para tu transformación personal paso a paso - 25 páginas.</p>
-                        <span class="instructor">Guía de Estudio</span>
-                    </div>
-                    <div class="content-status">Disponible</div>
-                </div>
-
-                <div class="content-item">
-                    <div class="content-icon">🎧</div>
-                    <div class="content-info">
-                        <h3>Podcast: Mentalidad de Éxito</h3>
-                        <p>Serie de episodios sobre el desarrollo de una mentalidad ganadora.</p>
-                        <span class="instructor">Audio MP3 - 30 min</span>
-                    </div>
-                    <div class="content-status">Disponible</div>
-                </div>
-
-                <!-- Contenido exclusivo para plan Evolucionar -->
-                <div class="content-item evolucionar-only">
-                    <div class="content-icon">🏆</div>
-                    <div class="content-info">
-                        <h3>Masterclass: Estrategias Avanzadas de Liderazgo</h3>
-                        <p>Técnicas profesionales para liderar equipos y organizaciones de alto rendimiento.</p>
-                        <span class="instructor">Grabación Premium - 90 min</span>
-                    </div>
-                    <div class="content-status evolucionar">Solo Evolucionar ($125)</div>
-                </div>
-
-                <div class="content-item evolucionar-only">
-                    <div class="content-icon">💼</div>
-                    <div class="content-info">
-                        <h3>PDF: Manual de Negociación Estratégica</h3>
-                        <p>Guía completa con técnicas avanzadas de negociación para empresarios.</p>
-                        <span class="instructor">Material Premium - 50 páginas</span>
-                    </div>
-                    <div class="content-status evolucionar">Solo Evolucionar ($125)</div>
-                </div>
+            <!-- Loading state -->
+            <div id="contentLoading" class="loading-state">
+                <div class="loading-spinner"></div>
+                <p>Cargando contenido...</p>
             </div>
+            
+            <!-- Error state -->
+            <div id="contentError" class="error-state" style="display: none;">
+                <p>Error al cargar el contenido. <button onclick="loadUserContent()">Reintentar</button></p>
+            </div>
+                    
+            <div id="contentList" class="content-list" style="display: none;">
+            <!-- Loads JavaScript -->
+            </div>
+
+            <!-- Empty state -->
+            <div id="contentEmpty" class="empty-state" style="display: none;">
+                <div class="empty-icon">📚</div>
+                <h3>No hay contenido disponible</h3>
+                <p>Aún no se ha subido contenido para tu plan de membresía.</p>
+            </div>`
         </section>
 
         <!-- Eventos Section -->
