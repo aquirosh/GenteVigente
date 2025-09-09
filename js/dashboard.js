@@ -222,7 +222,15 @@ function updateProfileDisplay() {
     if (profileMembershipBadge) {
         const subscription = currentUserData.subscription.toLowerCase();
         profileMembershipBadge.textContent = subscription.toUpperCase();
-        profileMembershipBadge.className = `membership-badge ${subscription}`;
+        
+        // Aplicar las clases correctas para los gradientes
+        if (subscription === 'despertar') {
+            profileMembershipBadge.className = 'membership-badge despertar';
+        } else if (subscription === 'evolucionar') {
+            profileMembershipBadge.className = 'membership-badge evolucionar';
+        } else {
+            profileMembershipBadge.className = `membership-badge ${subscription}`;
+        }
     }
     
     // Actualizar también el topbar
@@ -260,7 +268,7 @@ function populateForm() {
 
 function resetForm() {
     populateForm(); // Restaurar valores originales
-    showNotification('Cambios cancelados', 'info');
+    showNotification('Cambios cancelados', 'error');
 }
 
 // Configurar validación del formulario de perfil

@@ -1,7 +1,7 @@
 /* admin-dashboard.css - Estilos para el panel de administración */
 
 :root {
-    --primary-color: #c78b42;
+    --primary-color: #E4B948;
     --secondary-color: #1a1a1a;
     --background-color: #f5f5f5;
     --sidebar-bg: #2a2a2a;
@@ -55,7 +55,8 @@ body {
 }
 
 .admin-badge {
-    background: var(--primary-color);
+    /* background: linear-gradient(#ef4444, #dc2626 ,#991b1b ); */
+    background: linear-gradient(#868fa1, #6b7280 ,#3f4b5e );
     color: white;
     padding: 0.3rem 0.8rem;
     border-radius: 12px;
@@ -144,7 +145,7 @@ body {
 .user-avatar {
     width: 45px;
     height: 45px;
-    background: var(--primary-color);
+    background: #858585;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -876,6 +877,7 @@ body {
 }
 
 .user-plan.admin {
-    background: #6b7280;
+    background: linear-gradient(#868fa1, #6b7280 ,#3f4b5e );
+    /* background: linear-gradient(#ef4444, #dc2626 ,#991b1b ); */
     color: white;
 }

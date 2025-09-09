@@ -77,7 +77,6 @@ body {
     letter-spacing: 2px;
     text-transform: uppercase;
     transition: all 0.3s ease;
-    margin-left: -50px;
 }
 
 .nav-logo:hover {

@@ -6,7 +6,7 @@
     --dark-despertar: #a0522d;
     --primary-evolucionar: #c78b42;
     --light-evolucionar: #E0A865;
-    --primary-color: #c78b42;
+    --primary-color: #E4B948;
     --secondary-color: #1a1a1a;
     --background-color: #f5f5f5;
     --sidebar-bg: #2a2a2a;
@@ -128,7 +128,7 @@ body {
 .user-avatar {
     width: 40px;
     height: 40px;
-    background: var(--primary-color);
+    background: #858585;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -426,18 +426,27 @@ body {
 }
 
 .membership-badge {
+    display: inline-block;
     background: var(--primary-color);
     color: white;
-    padding: 0.3rem 1rem;
-    border-radius: 15px;
+    padding: 0.4rem 1.2rem;
+    border-radius: 20px;
     font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.membership-badge.gold {
-    background: linear-gradient(135deg, var(--primary-color), #f5e049);
-    color: var(--secondary-color);
+.membership-badge.despertar {
+    background: linear-gradient(135deg, #a36628, #CD7F32, #ee943a);
+    color: white;
+    box-shadow: 0 4px 15px rgba(205, 127, 50, 0.3);
+}
+
+.membership-badge.evolucionar {
+    background: linear-gradient(135deg, #CC9432, #E4B948, #EEC851);
+    color: white;
+    box-shadow: 0 4px 15px rgba(228, 185, 72, 0.3);
 }
 
 /* Estilos para Mi Perfil */
@@ -461,7 +470,7 @@ body {
 .profile-avatar-large {
     width: 100px;
     height: 100px;
-    background: var(--primary-color);
+    background: #828282;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -486,27 +495,7 @@ body {
     margin: 0 0 1rem 0;
 }
 
-.membership-badge {
-    display: inline-block;
-    background: var(--primary-color);
-    color: white;
-    padding: 0.4rem 1.2rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
 
-.membership-badge.despertar {
-    background: linear-gradient(135deg, var(--primary-despertar), var(--light-despertar));
-    color: white;
-}
-
-.membership-badge.evolucionar {
-    background: linear-gradient(135deg, var(--primary-evolucionar), var(--light-evolucionar));
-    color: white;
-}
 
 .profile-form {
     max-width: 100%;
@@ -613,7 +602,7 @@ body {
 }
 
 .btn-primary {
-    background: var(--primary-color);
+    background: #858585;
     color: white;
     border: none;
     padding: 0.8rem 2rem;
@@ -625,7 +614,7 @@ body {
 }
 
 .btn-primary:hover {
-    background: #a6722e;
+    background: #5d5d5d;
     transform: translateY(-1px);
 }
 
@@ -642,8 +631,7 @@ body {
 }
 
 .btn-secondary:hover {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
+    border-color: #5d5d5d;
 }
 
 .security-card {
@@ -696,8 +684,8 @@ body {
 }
 
 .btn-outline:hover {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
+    border-color: #5d5d5d;
+    color: #5d5d5d;
 }
 
 /* Modal Styles */
