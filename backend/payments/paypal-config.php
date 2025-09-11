@@ -7,8 +7,8 @@ class PayPalConfig {
     const SANDBOX_MODE = true; // Cambiar a FALSE en producción
     
     // CREDENCIALES SANDBOX (Desarrollo)
-    const SANDBOX_CLIENT_ID = 'Afyej40J7y_S2gve1dkr67cqrBYJBliWRVCcquaWcMXjMz9UtyWOzU36yM9npWWP_YjgCJVpccgKTtNN';
-    const SANDBOX_CLIENT_SECRET = 'ENE3U8yFo-IY2bHTdaNnw3HaJWPzlHLG8Vwu7mN9QZLsrpA9S2cqWfmM2s3CMoay-qRjCyXe_5uizk4-';
+    const SANDBOX_CLIENT_ID = '';
+    const SANDBOX_CLIENT_SECRET = '';
     
     // CREDENCIALES LIVE (Producción)
     const LIVE_CLIENT_ID = 'TU_LIVE_CLIENT_ID_AQUI';
