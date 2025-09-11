@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeNavigation();
     initializeMobileMenu();
     initializeScrollEffects();
-    initializeCounters();
     initializeParallax();
     
     console.log('🌟 Gente Vigente - Cargada correctamente');
@@ -154,47 +153,6 @@ function initializeScrollEffects() {
         }
     });
 }
-
-// Función para inicializar contadores animados
-// function initializeCounters() {
-//     function animateCounter(element, target, duration = 2000) {
-//         let start = 0;
-//         const increment = target / (duration / 16);
-        
-//         function updateCounter() {
-//             start += increment;
-//             if (start < target) {
-//                 element.textContent = Math.floor(start) + (element.textContent.includes('%') ? '%' : element.textContent.includes('+') ? '+' : '');
-//                 requestAnimationFrame(updateCounter);
-//             } else {
-//                 element.textContent = target + (element.textContent.includes('%') ? '%' : element.textContent.includes('+') ? '+' : '');
-//             }
-//         }
-        
-//         updateCounter();
-//     }
-
-//     // Observer para activar contadores cuando entren en vista
-//     const counterObserver = new IntersectionObserver((entries) => {
-//         entries.forEach(entry => {
-//             if (entry.isIntersecting) {
-//                 const element = entry.target;
-//                 const text = element.textContent;
-//                 const target = parseInt(text.replace(/[^\d]/g, ''));
-                
-//                 if (!isNaN(target)) {
-//                     animateCounter(element, target);
-//                     counterObserver.unobserve(element);
-//                 }
-//             }
-//         });
-//     });
-
-//     document.querySelectorAll('.stat-number').forEach(counter => {
-//         counterObserver.observe(counter);
-//     });
-// }
-
 // Función para efectos parallax
 function initializeParallax() {
     // Parallax para elementos visuales en la sección about

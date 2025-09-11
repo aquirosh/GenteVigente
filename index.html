@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gente Vigente - Crea, Trasciende, Lidera</title>
+    <link rel="icon" type="image/png" href="img/LogoGVNB.png">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/styles.css">
@@ -94,7 +95,7 @@
             <div class="particle"></div>
             <div class="particle"></div>
         </div>
-
+ 
         <div class="logo-container fade-in">
             <img src="img/LogoGVNB.png" alt="Gente Vigente Logo" class="main-logo">
         </div>
@@ -146,26 +147,27 @@
     <div class="container">
         <div class="hqv-header fade-up">
             <span class="section-badge">Liderazgo</span>
-            <h2 class="section-title">Humberto Quirós Valverde</h2>
-            <h3 class="hqv-subtitle">Mentor, consultor y experto en liderazgo con más de 30 años de experiencia transformando personas y organizaciones.</h3>
+            <h2 class="section-title">Humberto Quirós~Valverde</h2>
+            <h3 class="hqv-subtitle">Mentor, Consultor y Experto en Liderazgo <br> transformando personas y organizaciones</h3>
         </div>
         
         <div class="hqv-content image-right fade-up">
             <div class="hqv-text">
                 
                 <ul class="achievements">
-                    <li>Vicepresidente y Director en empresas Fortune en Latinoamérica.</li>
-                    <li>MBA en Gerencia General. Formación ejecutiva en la University of California, Berkeley.</li>
+                    <li>Vicepresidente y Director en empresas Fortune.</li>
+                    <li>MBA en Gerencia General. Formación ejecutiva en University of California, Berkeley.</li>
                     <li>Mentor, Coach y Conferencista Certificado del John Maxwell Team.</li>
                     <li>Capacitador internacional en liderazgo, equipos de alto desempeño y gestión del talento.</li>
                     <li>Profesor universitario en Programas de MBA.</li>
-                    <li>Autor y creador de contenidos en LinkedIn sobre liderazgo y vigencia profesional.</li>
+                    <li>Autor y referente de contenidos en LinkedIn sobre liderazgo y vigencia profesional.</li>
                 </ul>
                 
                 
                 
                 <p class="closing-text">
-                    Hoy impulsa el movimiento Gente Vigente, un espacio para demostrar que el ser nunca caduca, y que la verdadera clave de la reinvención está en sumar habilidades nuevas a la experiencia acumulada.
+                    Hoy impulsa el movimiento Gente Vigente, espacio para demostrar 
+                    que el ser <br>nunca caduca y que la clave esta en sumar a la experiencia nuevas habilidades.
                 </p>
             </div>
             
@@ -235,7 +237,6 @@
                         <div class="author-avatar">RY</div>
                         <div class="author-info">
                             <h4>Roy</h4>
-                            <p></p>
                         </div>
                     </div>
                 </div>
@@ -252,7 +253,6 @@
                         <div class="author-avatar">KTH</div>
                         <div class="author-info">
                             <h4>Katherine</h4>
-                            <p></p>
                         </div>
                     </div>
                 </div>
@@ -269,7 +269,6 @@
                         <div class="author-avatar">ET</div>
                         <div class="author-info">
                             <h4>Etiene</h4>
-                            <p></p>
                         </div>
                     </div>
                 </div>
@@ -327,9 +326,9 @@
                     <li>Inspiración y aprendizajes prácticos para tu vida y carrera</li>
                 </ul>
                 
-                <button class="plan-cta despertar-cta" onclick="window.location.href='registro-despertar.php'">
+                <button class="plan-cta despertar-cta" onclick="openPaymentModal('despertar')">
                     Comenzar en sala Despertar
-                  </button>
+                </button>
                   
             </div>
             
@@ -354,8 +353,9 @@
                     <li>Acceso prioritario a futuros programas y Masterclasses</li>
                 </ul>
                 
-                <button class="plan-cta evolucionar-cta" onclick="window.location.href='registro-evolucionar.php'">
-                    Comenzar en sala evolucionar
+                <button class="plan-cta evolucionar-cta" onclick="openPaymentModal('evolucionar')">
+                    Comenzar en sala Evolucionar
+            
                 </button>
             </div>
         </div>
@@ -431,10 +431,65 @@
         </div>
     </footer>
 
+    <!-- Modal de PayPal -->
+<div id="paymentModal" class="payment-modal" style="display: none;">
+    <div class="modal-backdrop" onclick="closePaymentModal()"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Completar Suscripción</h2>
+            <button type="button" class="close-btn" onclick="closePaymentModal()">&times;</button>
+        </div>
+        
+        <div id="alertContainer"></div>
+        
+        <!-- Resumen del plan -->
+        <div class="plan-summary">
+            <h3 id="planName"></h3>
+            <div class="price-display-modal">
+                <span class="price-label">Precio mensual:</span>
+                <span id="planPrice"></span>
+            </div>
+        </div>
+        
+        <!-- Formulario de datos -->
+        <form id="paymentForm">
+            <input type="hidden" id="selectedPlan" value="">
+            
+            <div class="form-group">
+                <label for="firstName">Nombre</label>
+                <input type="text" id="firstName" name="firstName" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="lastName">Apellido</label>
+                <input type="text" id="lastName" name="lastName" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Correo Electrónico</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <!-- Botón de PayPal -->
+            <button type="button" id="paypalBtn" class="btn-paypal">
+                <img src="https://www.paypalobjects.com/webstatic/icon/pp258.png" alt="PayPal" width="20" height="20">
+                Pagar con PayPal
+            </button>
+            
+            <div class="payment-info">
+                <p><small>✅ Pago seguro con PayPal</small></p>
+                <p><small>✅ Cancela cuando quieras</small></p>
+                <p><small>✅ Soporte técnico incluido</small></p>
+            </div>
+        </form>
+    </div>
+</div>
+
     <script src="js/global-settings.js"></script>
     <script src="js/script.js"></script>
     <button class="back-to-top" id="backToTop" aria-label="Volver arriba"></button>
     <script src="js/backtotop.js"></script>
     <script src="js/settings.js"></script>
+    <script src="js/payment.js"></script>
 </body>
 </html>
